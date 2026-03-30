@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bodybuilding — Guida Ragionata</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --border2: #333;
+    --text: #e8e4dc;
+    --muted: #888;
+    --accent: #c8f060;
+    --accent2: #f0c060;
+    --accent3: #60c8f0;
+    --red: #f06060;
+    --serif: 'Instrument Serif', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(14,14,14,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--mono); font-size: 13px; color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a {
+    font-size: 12px; color: var(--muted); text-decoration: none;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 120px 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(200,240,96,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,240,96,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .hero-glow {
+    position: absolute; top: -200px; right: -200px; z-index: 0;
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(200,240,96,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-family: var(--mono); font-size: 11px; color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 28px;
+    position: relative; z-index: 1;
+  }
+  .hero-title {
+    font-family: var(--serif); font-size: clamp(52px, 8vw, 112px);
+    line-height: 0.92; letter-spacing: -0.02em;
+    color: var(--text); position: relative; z-index: 1;
+    max-width: 900px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 15px; color: var(--muted); margin-top: 32px;
+    max-width: 520px; line-height: 1.7; position: relative; z-index: 1;
+  }
+  .hero-meta {
+    display: flex; gap: 48px; margin-top: 56px;
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border); padding-top: 32px;
+  }
+  .hero-stat { display: flex; flex-direction: column; gap: 4px; }
+  .hero-stat-num { font-family: var(--mono); font-size: 28px; color: var(--accent); }
+  .hero-stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ── SECTION HEADERS ── */
+  .section {
+    padding: 100px 48px;
+    border-top: 1px solid var(--border);
+  }
+  .section-label {
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--serif); font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.05; margin-bottom: 16px; letter-spacing: -0.01em;
+  }
+  .section-desc {
+    font-size: 15px; color: var(--muted); max-width: 580px; line-height: 1.7; margin-bottom: 56px;
+  }
+
+  /* ── MACRO TABS ── */
+  .macro-tabs { display: flex; gap: 0; margin-bottom: 48px; flex-wrap: wrap; }
+  .macro-tab {
+    padding: 12px 20px; font-size: 13px; cursor: pointer;
+    border: 1px solid var(--border); background: transparent; color: var(--muted);
+    font-family: var(--sans); letter-spacing: 0.04em;
+    transition: all .2s; position: relative; margin-right: -1px;
+  }
+  .macro-tab:first-child { border-radius: 4px 0 0 4px; }
+  .macro-tab:last-child { border-radius: 0 4px 4px 0; margin-right: 0; }
+  .macro-tab.active {
+    background: var(--accent); color: #0e0e0e; border-color: var(--accent);
+    font-weight: 600; z-index: 1;
+  }
+  .macro-tab:hover:not(.active) { color: var(--text); border-color: var(--border2); }
+
+  /* ── LESSON CONTENT ── */
+  #lesson-container { display: block; }
+  .lesson-panel { display: none; }
+  .lesson-panel.active { display: block; }
+
+  /* ── LESSON HEADER ── */
+  .lesson-header {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; margin-bottom: 32px;
+  }
+  .lesson-header-left {
+    padding: 40px; background: var(--surface);
+    border-right: 1px solid var(--border);
+  }
+  .lesson-header-right { padding: 40px; background: var(--surface2); }
+  .lesson-number { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .lesson-h { font-family: var(--serif); font-size: 36px; line-height: 1.1; margin-bottom: 12px; }
+  .lesson-intro { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .lesson-topics-title { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 16px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .lesson-topics { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .lesson-topic-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text); }
+  .topic-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+
+  /* ── CONCEPT CARDS ── */
+  .concepts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .concept-card {
+    background: var(--surface); padding: 28px;
+    cursor: pointer; transition: background .15s;
+    position: relative;
+  }
+  .concept-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+    background: transparent; transition: background .15s;
+  }
+  .concept-card:hover { background: var(--surface2); }
+  .concept-card:hover::before { background: var(--accent); }
+  .concept-card.expanded { background: var(--surface2); }
+  .concept-card.expanded::before { background: var(--accent); }
+  .card-tag {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+    display: inline-block; margin-bottom: 14px;
+  }
+  .tag-bio { background: rgba(96,200,240,0.12); color: var(--accent3); }
+  .tag-train { background: rgba(200,240,96,0.12); color: var(--accent); }
+  .tag-nutr { background: rgba(240,192,96,0.12); color: var(--accent2); }
+  .tag-prog { background: rgba(192,96,240,0.12); color: #c060f0; }
+  .tag-myth { background: rgba(240,96,96,0.12); color: var(--red); }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.4; }
+  .card-preview { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .card-expand {
+    margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);
+    display: none;
+  }
+  .concept-card.expanded .card-expand { display: block; }
+  .card-body-full { font-size: 14px; color: #bbb; line-height: 1.75; }
+  .card-rule {
+    margin-top: 14px; padding: 12px 14px;
+    background: rgba(200,240,96,0.06); border-left: 2px solid var(--accent);
+    border-radius: 0 4px 4px 0; font-size: 13px; color: var(--text); line-height: 1.6;
+  }
+  .card-rule.danger {
+    background: rgba(240,96,96,0.06); border-color: var(--red); color: var(--text);
+  }
+  .card-rule.info {
+    background: rgba(96,200,240,0.06); border-color: var(--accent3);
+  }
+  .expand-toggle {
+    margin-top: 14px; font-family: var(--mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.06em; user-select: none;
+  }
+  .expand-toggle span { color: var(--accent); }
+  .reel-links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .reel-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+    padding: 5px 10px; border-radius: 4px;
+    background: rgba(200,240,96,0.07); border: 0.5px solid rgba(200,240,96,0.2);
+    color: var(--accent); text-decoration: none; transition: all .15s;
+  }
+  .reel-link:hover { background: rgba(200,240,96,0.14); border-color: rgba(200,240,96,0.4); }
+  .reel-link svg { width: 10px; height: 10px; flex-shrink: 0; }
+
+  /* ── MYTH BUSTER ── */
+  .myth-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .myth-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: var(--surface); gap: 0;
+  }
+  .myth-cell { padding: 24px 28px; }
+  .myth-cell.wrong { border-right: 1px solid var(--border); }
+  .myth-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .myth-label.wrong-label { color: var(--red); }
+  .myth-label.right-label { color: var(--accent); }
+  .myth-text { font-size: 14px; line-height: 1.65; }
+
+  /* ── GLOSSARY ── */
+  .glossary-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .glossary-item { padding: 20px 28px; border-bottom: 1px solid var(--border); background: var(--surface); display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; }
+  .glossary-item:last-child { border-bottom: none; }
+  .glossary-term { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 500; }
+  .glossary-def { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-note { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .footer-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    .section { padding: 64px 20px; }
+    .lesson-header { grid-template-columns: 1fr; }
+    .lesson-header-left { border-right: none; border-bottom: 1px solid var(--border); }
+    .myth-row { grid-template-columns: 1fr; }
+    .myth-cell.wrong { border-right: none; border-bottom: 1px solid var(--border); }
+    .glossary-item { grid-template-columns: 1fr; gap: 6px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .hero-meta { gap: 24px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Bodybuilding — Guida Ragionata</div>
+  <div class="nav-links">
+    <a href="#fondamenta">Fondamenta</a>
+    <a href="#allenamento">Allenamento</a>
+    <a href="#nutrizione">Nutrizione</a>
+    <a href="#programmazione">Programmazione</a>
+    <a href="#miti">Miti</a>
+    <a href="#glossario">Glossario</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">Lezione completa · Basata su contenuti reali</div>
+  <h1 class="hero-title">Capire il<br><em>bodybuilding</em><br>davvero.</h1>
+  <p class="hero-sub">Una guida organizzata per macro-argomenti, costruita sulle descrizioni di un account Instagram specializzato. Zero luoghi comuni, solo concetti riformulati con rigore.</p>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <span class="hero-stat-num">5</span>
+      <span class="hero-stat-label">Macro-argomenti</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">40+</span>
+      <span class="hero-stat-label">Concetti chiave</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">297</span>
+      <span class="hero-stat-label">Reel analizzati</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">0</span>
+      <span class="hero-stat-label">Miti lasciati in piedi</span>
+    </div>
+  </div>
+</section>
+
+<!-- LEZIONI PRINCIPALI -->
+<section class="section" id="fondamenta">
+  <div class="section-label">01 — Fondamenta</div>
+  <h2 class="section-title">Biomeccanica<br>& anatomia</h2>
+  <p class="section-desc">Prima di tutto il resto, bisogna capire come funziona realmente il corpo umano: come si genera forza, come si muovono le articolazioni, perché certi esercizi funzionano e altri no.</p>
+
+  <div class="macro-tabs" id="tabs-bio">
+    <button class="macro-tab active" onclick="showTab('bio','tensione')">Tensione meccanica</button>
+    <button class="macro-tab" onclick="showTab('bio','leve')">Leve & ROM</button>
+    <button class="macro-tab" onclick="showTab('bio','spalla')">Biomeccanica della spalla</button>
+    <button class="macro-tab" onclick="showTab('bio','scapola')">Scapola & dorsale</button>
+  </div>
+
+  <div id="lesson-container-bio">
+
+    <div class="lesson-panel active" id="bio-tensione">
+      <div class="lesson-header">
+        <div class="lesson-header-left">
+          <div class="lesson-number">// 01.A</div>
+          <div class="lesson-h">Tensione meccanica</div>
+          <div class="lesson-intro">Il meccanismo primario dell'ipertrofia. Non il bruciore, non il pump, non il dolore muscolare. La tensione generata sul muscolo — soprattutto in allungamento — è ciò che spinge le fibre ad adattarsi e crescere.</div>
+        </div>
+        <div class="lesson-header-right">
+          <div class="lesson-topics-title">Concetti in questa sezione</div>
+          <ul class="lesson-topics">
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Perché il pump non è il driver della crescita</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Allungamento vs accorciamento muscolare</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Effective reps e prossimità al cedimento</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Connessione mente-muscolo: utile o fuorviante?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Principio base</span>
+          <div class="card-title">La tensione meccanica è il vero driver dell'ipertrofia</div>
+          <div class="card-preview">Il muscolo cresce perché riceve uno stimolo meccanico efficace, non perché lo si "sente" lavorare.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Focalizzarsi eccessivamente sulla "connessione mente-muscolo" — cioè sul bruciore e sul pump — può ridurre la performance meccanica. Gli studi mostrano che concentrarsi sul muscolo anziché sul movimento può limitare la produzione di forza. I muscoli crescono soprattutto quando lavorano sotto tensione in allungamento: in quella posizione il pump è minore, ma la tensione è più alta e prolungata, ed è questa che produce adattamento strutturale.</div>
+            <div class="card-rule">La sensazione non è la prova che stai lavorando bene. Un esercizio tecnicamente corretto, anche senza bruciore, è spesso più efficace di uno "sentito tantissimo".</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DJMCjyKMI3o" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Connessione mente-muscolo</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C-hr5rEtWHj" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Pump vs tensione</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Allungamento vs accorciamento</span>
+          <div class="card-title">Allenare in allungamento vs in accorciamento</div>
+          <div class="card-preview">Gli esercizi che caricano il muscolo nella sua posizione allungata sono generalmente più efficaci per la crescita.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Un esercizio in accorciamento è difficile quando il muscolo è corto (tipicamente a fine movimento). Un esercizio in allungamento chiede il conto quando il muscolo è lungo. Allenare in allungamento produce spesso meno pump ma maggiore stimolo ipertrofico. In termini di ordine: se si vuole massimizzare la performance, ha senso mettere prima gli esercizi in accorciamento (dove il muscolo è più debole), perché se si arriva stanchi in quella posizione si paga subito.</div>
+            <div class="card-rule info">Più sangue nel muscolo non equivale automaticamente a più muscolo. Le sensazioni durante la serie possono essere fuorvianti.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DTSetsaDT_S" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Accorciamento vs allungamento</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C_FvE0VNnaT" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Allungamento: sensazioni fuorvianti</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Effective reps</span>
+          <div class="card-title">Le ripetizioni davvero utili per la crescita</div>
+          <div class="card-preview">Non tutte le ripetizioni di una serie contribuiscono allo stesso modo all'ipertrofia.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il concetto di "effective reps" si riferisce alle ripetizioni eseguite in prossimità del cedimento muscolare, quando le unità motorie ad alta soglia vengono pienamente reclutate. Arrivare regolarmente al cedimento però accumula fatica neuromuscolare significativa. La strategia ottimale è fermarsi a 1 ripetizione dal cedimento (RIR 1): si reclutano comunque le fibre ad alta soglia, si limita l'accumulo di fatica, e si mantiene la qualità delle serie successive.</div>
+            <div class="card-rule">RIR 1 (1 ripetizione in riserva) è spesso il punto di equilibrio ideale: stimolo alto, fatica gestibile.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DDegf1vtQVi" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>RIR 1 spiegato</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C9E--Vrtivi" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Cedimento e effective reps</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C7lt4j9CJSy" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Rep range e cedimento</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-myth">Mito da sfatare</span>
+          <div class="card-title">Il carico alto non fa crescere il muscolo direttamente</div>
+          <div class="card-preview">Il muscolo non cresce "perché sposti tanto peso". È il contrario: sposti più peso perché il muscolo è cresciuto.</div>
+          <div class="card-expand">
+            <div class="card-body-full">L'ipertrofia non è una conseguenza della forza, ma la sua causa principale. Aumentare la sezione trasversa del muscolo aumenta direttamente il numero di sarcomeri in parallelo, quindi la capacità di generare forza. Il muscolo non ha gli occhi e non sa contare i chili: percepisce solo lo stimolo meccanico. Allenarsi "prima per la forza" non ha senso in ottica ipertrofica — l'approccio ipertrofico è già il modo più diretto per costruire forza.</div>
+            <div class="card-rule danger">Evitare di aumentare i carichi accorciando il ROM, sfruttando inerzie o alterando le leve: si sposta di più, ma il muscolo lavora di meno.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DQbs9LzDb58" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Ipertrofia causa forza</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DEKSGq-CEAj" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Il carico non è tutto</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DVV4IKVjbph" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Carico e scienza</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Principio di Henneman</span>
+          <div class="card-title">Reclutamento delle unità motorie</div>
+          <div class="card-preview">Il corpo recluta prima le fibre più piccole, poi quelle grandi con l'aumentare dello sforzo.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il principio di Henneman afferma che durante uno sforzo crescente, il corpo attiva prima le unità motorie più piccole (fibre lente) e poi, man mano che lo sforzo aumenta, coinvolge le fibre più grandi e forti. Questo è importante perché reclutare più fibre non equivale automaticamente a più ipertrofia: serve che quelle fibre ricevano anche una tensione meccanica adeguata. Il reclutamento è una condizione necessaria, non sufficiente.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C7WRH_5CYrd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Principio di Henneman</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C9evMIoiu-M" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Reclutamento fibre</a>
+          </div>
+            <div class="card-rule info">Reclutare più fibre ≠ crescere di più. Il reclutamento crea il contesto, ma è la tensione a produrre l'adattamento.</div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Adattamento progressivo</span>
+          <div class="card-title">Il progressive overload come conseguenza, non causa</div>
+          <div class="card-preview">L'aumento dei carichi nel tempo è un indicatore di crescita, non il meccanismo che la produce.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il sovraccarico progressivo è il risultato di un allenamento efficace, non la sua causa. Quando i carichi salgono nel tempo — a parità di esecuzione e ROM — significa che il muscolo è diventato più grande e quindi più forte. Monitorare il progressive overload serve per capire se il mesociclo sta funzionando. Non è invece corretto pensare di "creare" ipertrofia semplicemente alzando il peso il prima possibile.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C-FfLYMNLUP" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Progressive overload spiegato</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-panel" id="bio-leve">
+      <div class="lesson-header">
+        <div class="lesson-header-left">
+          <div class="lesson-number">// 01.B</div>
+          <div class="lesson-h">Leve, ROM e profili di resistenza</div>
+          <div class="lesson-intro">Ogni esercizio ha una meccanica precisa. Comprendere dove il muscolo è più forte, dove è più debole e come varia la resistenza lungo il movimento è fondamentale per scegliere gli esercizi con criterio.</div>
+        </div>
+        <div class="lesson-header-right">
+          <div class="lesson-topics-title">Concetti in questa sezione</div>
+          <ul class="lesson-topics">
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Moment arm interno</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Length-tension relationship (LTR)</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Curva di forza del muscolo</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Profili di resistenza e variazione</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Full ROM: non sempre per tutti</li>
+          </ul>
+        </div>
+      </div>
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Biomeccanica</span>
+          <div class="card-title">Moment arm interno</div>
+          <div class="card-preview">La distanza tra il centro articolare e la linea d'azione del muscolo determina quanta leva ha il muscolo in quel movimento.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il moment arm interno è la distanza perpendicolare tra il centro dell'articolazione (fulcro) e la linea d'azione del muscolo. Più è grande, maggiore è il vantaggio meccanico del muscolo in quel punto del ROM. Questo valore cambia lungo il movimento: ci sono posizioni dove il muscolo ha più leva (e genera più forza) e posizioni dove ne ha meno. Conoscere questo concetto aiuta a capire perché certi esercizi sono "facili" in una parte del ROM e difficili in un'altra.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DTaQ7YJjRRd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Moment arm interno e LTR</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Biomeccanica</span>
+          <div class="card-title">Length-Tension Relationship (LTR)</div>
+          <div class="card-preview">La forza che un muscolo può generare dipende dalla sua lunghezza in quel preciso momento.</div>
+          <div class="card-expand">
+            <div class="card-body-full">La LTR descrive come cambia la capacità di produrre forza al variare della lunghezza muscolare. A lunghezze troppo corte, l'overlap tra actina e miosina diminuisce: ci sono meno crossbridge utili e la forza cala. A lunghezze ottimali (spesso intermedie o in allungamento moderato) la forza è massima. Conoscere la LTR di ogni muscolo aiuta a scegliere esercizi che lo stimolano nella posizione più vantaggiosa.</div>
+            <div class="card-rule">Il deltoide laterale, ad esempio, esprime più forza in una posizione intermedia di abduzione — né completamente a riposo né completamente in alto.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DMsDxM9iq62" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>LTR deltoide laterale</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DTaQ7YJjRRd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>LTR e moment arm</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Selezione esercizi</span>
+          <div class="card-title">Profili di resistenza: variare è necessario</div>
+          <div class="card-preview">Allenare sempre con lo stesso profilo di resistenza nel lungo periodo limita l'ipertrofia.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Ogni esercizio ha un punto del ROM dove la difficoltà è massima — determinato dalla direzione del carico e dalla meccanica articolare. Allenare sempre nello stesso profilo (solo in allungamento o solo in accorciamento) finisce per lasciare parti del ROM poco stimolate. Variare i profili di resistenza — usando cavi, manubri, bilancieri, macchine — garantisce uno stimolo più completo nel lungo periodo.</div>
+            <div class="card-rule">Non basta cambiare esercizio: bisogna cambiare il profilo di resistenza, cioè dove lungo il ROM si trova la massima tensione.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DOnxTX5jRcx" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Profilo di resistenza univoco</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C9CaeCutkT9" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Variare profilo di resistenza</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">ROM</span>
+          <div class="card-title">Il Full ROM non è obbligatorio per tutti</div>
+          <div class="card-preview">Le differenze strutturali tra individui rendono impossibile prescrivere un ROM identico per tutti.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Le leve muscolari e articolari variano tra individui. In alcuni esercizi come lo squat, persone con femori più lunghi potrebbero trovare difficile o rischioso raggiungere un ROM completo a causa della propria struttura ossea. Il full ROM ha senso quando è accessibile in modo sicuro e quando produce realmente tensione sul muscolo target. In alcuni casi, un ROM parziale mira meglio al muscolo e riduce il rischio articolare.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C8eYhEBNpim" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Full ROM non per tutti</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Sticking points</span>
+          <div class="card-title">I punti critici del movimento</div>
+          <div class="card-preview">Gli sticking points sono i tratti del movimento dove la difficoltà aumenta improvvisamente a causa di uno svantaggio meccanico.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Gli sticking points si trovano dove la leva biomeccanica è sfavorevole o dove la curva di forza del muscolo è nel tratto discendente. In certi esercizi, stimare le ripetizioni rimanenti prima del cedimento diventa difficile proprio perché l'intensità percepita può salire improvvisamente vicino allo sticking point, falsando la percezione dell'RIR. Conoscere i propri sticking points aiuta a calibrare meglio lo sforzo serie per serie.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DBgOvUPN9Ib" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Sticking points</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-panel" id="bio-spalla">
+      <div class="lesson-header">
+        <div class="lesson-header-left">
+          <div class="lesson-number">// 01.C</div>
+          <div class="lesson-h">Biomeccanica della spalla</div>
+          <div class="lesson-intro">La spalla è un'articolazione complessa e spesso mal compresa. Molti errori tecnici — e molti infortuni — nascono dall'ignorare la cinematica dello spazio sub-acromiale e del ritmo scapolo-omerale.</div>
+        </div>
+        <div class="lesson-header-right">
+          <div class="lesson-topics-title">Concetti in questa sezione</div>
+          <ul class="lesson-topics">
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Rotazione esterna dell'omero sopra i 90°</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Grande tuberosità e acromion</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Ritmo scapolo-omerale</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Alzate laterali: gomito e presa</li>
+          </ul>
+        </div>
+      </div>
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Cinematica</span>
+          <div class="card-title">Rotazione esterna obbligatoria sopra i 90°</div>
+          <div class="card-preview">Superata una certa soglia di abduzione, ruotare esternamente l'omero non è una scelta stilistica: è una necessità fisiologica.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Quando il gomito supera l'altezza delle orecchie (abduzione completa), la grande tuberosità dell'omero deve spostarsi per non collidere con l'acromion. Questa collisione — chiamata conflitto sub-acromiale — causa dolore e nel tempo può causare danni alle strutture della spalla. La soluzione è ruotare esternamente l'omero (portare il pollice verso l'alto/l'esterno) quando il braccio sale davvero in alto. Nelle alzate laterali classiche entro i 90°, una presa neutra o intermedia è invece del tutto accettabile.</div>
+            <div class="card-rule danger">Bloccare l'omero senza rotazione durante un'abduzione completa è un rischio per la salute articolare, non una questione di tecnica "più o meno corretta".</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DWWOF9djA_M" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Rotazione esterna omero</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Ritmo scapolo-omerale</span>
+          <div class="card-title">La scapola deve potersi muovere liberamente</div>
+          <div class="card-preview">Bloccare forzatamente le scapole o tentare di eliminare il trapezio dalle alzate laterali è controproducente e innaturale.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il movimento scapolo-omerale coordina l'omero e la scapola durante i movimenti del braccio. Il trapezio superiore non è un "nemico" nelle alzate laterali: è un muscolo che lavora in sinergia con deltoide e scapola per garantire un movimento efficiente. Tentare di bloccarlo forzatamente produce stress articolare aumentato, movimenti meno naturali e minore efficienza muscolare. L'obiettivo è controllarne il coinvolgimento, non eliminarlo.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DGQLX6-tSgd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Scapola e trapezio nelle laterali</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C9zVpHitRJI" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Ritmo scapolo-omerale</a>
+          </div>
+            <div class="card-rule">La scapola deve essere libera di muoversi — non bloccata né esageratamente depressa. Il ritmo naturale riduce lo stress sulle strutture passive.</div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Dettaglio tecnico</span>
+          <div class="card-title">Il gomito nelle alzate laterali</div>
+          <div class="card-preview">Il grado di flessione del gomito nelle alzate laterali influisce su leva, moment arm e distribuzione delle forze.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Non esiste una sola posizione corretta del gomito valida per tutti. Il gomito influisce sulla lunghezza della leva e sul moment arm: più è esteso, maggiore è il braccio di leva e quindi il carico percepito dal deltoide. Anche a riposo il gomito mantiene una micro-flessione fisiologica di 2–5° che garantisce stabilità attiva. In soggetti diversi, flessioni diverse ottimizzano il comfort articolare e lo stimolo muscolare: vanno valutate individualmente.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DTAc2UoDdon" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Gomito nelle alzate laterali</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-panel" id="bio-scapola">
+      <div class="lesson-header">
+        <div class="lesson-header-left">
+          <div class="lesson-number">// 01.D</div>
+          <div class="lesson-h">Gran dorsale e cinematica scapolare</div>
+          <div class="lesson-intro">Il gran dorsale è uno dei muscoli più mal allenati in palestra. Capirne anatomia, inserzioni e funzioni è la base per scegliere ed eseguire correttamente lat machine, rematori e varianti ai cavi.</div>
+        </div>
+        <div class="lesson-header-right">
+          <div class="lesson-topics-title">Concetti in questa sezione</div>
+          <ul class="lesson-topics">
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Fasci alti vs fasci bassi del gran dorsale</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Inclinazione ottimale alla lat machine</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Piano sagittale vs piano frontale</li>
+            <li class="lesson-topic-item"><span class="topic-dot"></span>Elevazione scapolare come parte del movimento</li>
+          </ul>
+        </div>
+      </div>
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Anatomia</span>
+          <div class="card-title">Fasci alti e fasci bassi del gran dorsale</div>
+          <div class="card-preview">Il gran dorsale non è un muscolo uniforme: i fasci alti e quelli bassi (iliaci) hanno orientamento diverso e rispondono diversamente ai movimenti.</div>
+          <div class="card-expand">
+            <div class="card-body-full">I fasci bassi del gran dorsale hanno un andamento verticale-obliquo dal bacino all'omero. Non amano l'adduzione pura (busto dritto) perché in quella posizione il grande rotondo e i fasci alti hanno vantaggio meccanico. Per coinvolgerli pienamente serve che il gomito termini la sua corsa dove il muscolo si inserisce nel bacino: questo richiede una lieve inclinazione del busto all'indietro. Oltre questa funzione, le tirate verticali con completa elevazione scapolare in eccentrica coinvolgono anche trapezi e upper back, non solo il gran dorsale.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DFsIRDzCIrF" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Gran dorsale: anatomia e split</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DIgRFcFCTWQ" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Tirate verticali vs orizzontali</a>
+          </div>
+            <div class="card-rule">La schiena non è "solo gran dorsale". Le tirate verticali e orizzontali dovrebbero avere obiettivi diversi e non venire confuse tra loro.</div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Tecnica</span>
+          <div class="card-title">Inclinazione ottimale alla lat machine</div>
+          <div class="card-preview">Inclinarsi leggermente all'indietro è l'unico modo per allineare i fasci bassi del dorsale con la resistenza verticale della lat machine.</div>
+          <div class="card-expand">
+            <div class="card-body-full">L'inclinazione ideale è circa 10–15° indietro. Questa posizione permette al gomito di scendere esattamente dove il muscolo si inserisce nel bacino, garantendo una pura estensione dell'omero. Inclinarsi oltre i 30° trasforma la tirata verticale in un rematore, spostando il focus verso i trapezi e i romboidi. Non esiste una singola esecuzione corretta uguale per tutti: la variante ottimale dipende dalla morfologia del soggetto.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DV0uiyaDfbb" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Inclinazione lat machine</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DSKZh8njc46" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Tutorial lat machine</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-bio">Varianti</span>
+          <div class="card-title">Lat machine: piano sagittale vs piano frontale</div>
+          <div class="card-preview">Presa stretta (gomiti davanti) o presa larga (gomiti aperti): cambiano il piano di lavoro, il braccio di leva e la richiesta scapolare.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Sul piano sagittale con presa neutra stretta, l'omero scende davanti al busto: favorisce l'estensione pura con buon coinvolgimento del gran dorsale in sinergia con grande rotondo e deltoide posteriore. Sul piano frontale con presa larga, l'omero si muove più in abduzione: cambia l'angolo di lavoro, il braccio di leva e la richiesta scapolare (più depressione e adduzione). Nessuna delle due è "giusta" o "sbagliata" in assoluto: sono strumenti con funzioni diverse.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DUsouAdDWSF" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Piano sagittale vs frontale</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ALLENAMENTO -->
+<section class="section" id="allenamento">
+  <div class="section-label">02 — Allenamento</div>
+  <h2 class="section-title">Come si struttura<br>una seduta</h2>
+  <p class="section-desc">Volume, intensità, frequenza, selezione degli esercizi, accessori. Ogni variabile ha un impatto diverso e spesso viene sopravvalutata o mal applicata.</p>
+
+  <div class="macro-tabs" id="tabs-train">
+    <button class="macro-tab active" onclick="showTab('train','volume')">Volume & intensità</button>
+    <button class="macro-tab" onclick="showTab('train','esercizi')">Selezione esercizi</button>
+    <button class="macro-tab" onclick="showTab('train','distretti')">Distretti muscolari</button>
+    <button class="macro-tab" onclick="showTab('train','accessori')">Accessori & attrezzi</button>
+  </div>
+
+  <div id="lesson-container-train">
+
+    <div class="lesson-panel active" id="train-volume">
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Principio</span>
+          <div class="card-title">Volume e frequenza: non si spingono all'infinito insieme</div>
+          <div class="card-preview">Il driver dell'ipertrofia è la tensione meccanica di qualità. Frequenza e volume sono strumenti per distribuirla nel tempo.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Volume e frequenza non sono variabili indipendenti che si possono alzare contemporaneamente senza conseguenze. Superata una certa soglia di stimolo, ogni ulteriore aumento produce benefici sempre più piccoli ma costi di recupero sempre più alti (diminishing returns). Più alta è la frequenza, più basso deve essere il volume per seduta per mantenere la qualità del lavoro. A parità di volume settimanale, frequenze diverse non producono necessariamente risultati diversi sull'ipertrofia — ma possono aiutare nell'apprendimento motorio.</div>
+            <div class="card-rule">Scegli la frequenza che ti permette di allenarti bene e con qualità, non quella "perfetta" sulla carta.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DTcz-7eDdYl" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Volume e frequenza</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DPoBXVgDYyx" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Frequenza allenamento</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Volume</span>
+          <div class="card-title">Il volume si adatta, non si prescrive</div>
+          <div class="card-preview">Il numero di serie settimanali per gruppo muscolare è altamente soggettivo e dipende da mille variabili.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Non esiste un numero universale di serie ottimali per gruppo muscolare. La risposta dipende dal soggetto, dalla sua storia di allenamento, da come vive fuori dalla palestra, dalla sua capacità di recupero e da come risponde agli stimoli. Il volume non è un numero fisso da prescrivere, è una variabile da adattare continuamente. Più importante del numero di serie è la qualità di quelle serie: una serie eseguita lontano dal cedimento (con RIR alto) conta poco come stimolo.</div>
+            <div class="card-rule">Volume spazzatura non significa solo "troppe serie": anche serie con troppe ripetizioni in riserva, recuperi insufficienti o esecuzioni sporche sono volume spazzatura.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DO8R4qdjaWJ" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Volume: numero non è tutto</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C8Jth7yCc8t" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Volume spazzatura</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Intensità</span>
+          <div class="card-title">Rep range e variazione dello stimolo</div>
+          <div class="card-preview">Variare il rep range non sempre porta benefici; ha senso in contesti specifici.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Variare il rep range per "dare uno stimolo differente" non ha grande supporto scientifico e può essere controproducente. Ha senso in presenza di fastidi articolari, per esercizi instabili o in situazioni molto specifiche. In contesti normali, mantenere range di ripetizioni che permettano intensità elevata e buona tecnica è più produttivo. Più di 15 ripetizioni accumula fatica inutile senza aumentare proporzionalmente l'ipertrofia: aumenta il danno muscolare e allunga i tempi di recupero.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DIOPhHONhP5" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>15+ ripetizioni controproducenti</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C7lt4j9CJSy" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Rep range e variazione</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Tecnica avanzata</span>
+          <div class="card-title">Top set e back-off: quando e come usarli</div>
+          <div class="card-preview">Tecnica utile in certi contesti, spesso citata senza comprenderne i meccanismi.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il top set è una serie massimale, seguita da una o più serie a carico ridotto (back-off). Ha senso quando si vuole esprimere il massimo sforzo su un'esecuzione, poi consolidare il volume con un carico gestibile. La fisiologia non lascia spazio alla magia: non esiste una tecnica che produca risultati garantiti indipendentemente dal contesto. La scelta di questa struttura dipende dall'esercizio, dall'atleta e dagli obiettivi della fase di allenamento.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DQ_ua9hDeuP" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Top set e back-off</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Recupero</span>
+          <div class="card-title">Progressioni di carico e tempi di adattamento</div>
+          <div class="card-preview">I tendini e i tessuti connettivi si adattano molto più lentamente dei muscoli: aumentare i carichi troppo in fretta è pericoloso.</div>
+          <div class="card-expand">
+            <div class="card-body-full">In esercizi come l'RDL, i carichi possono salire rapidamente nelle prime settimane perché si migliorano soprattutto coordinazione e reclutamento. Ma i tendini si adattano lentamente: anche sentendosi "forti" e avendo ancora buffer, le tensioni su zona lombare e ischiocrurali possono crescere più velocemente della reale capacità di adattamento del tessuto connettivo. A volte la scelta strategica è restare 1–2 settimane con lo stesso carico per dare tempo ai tessuti passivi di consolidarsi.</div>
+            <div class="card-rule danger">Le "progressioni incontrollate" sono silenziose ma pericolose. Sentirsi forti non significa che tutti i tessuti siano pronti a reggere più carico.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DVYXsXCDXUA" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Progressioni incontrollate RDL</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-panel" id="train-esercizi">
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Principio</span>
+          <div class="card-title">Il miglior esercizio non esiste in assoluto</div>
+          <div class="card-preview">Esiste l'esercizio migliore per te, in un preciso momento, dati i tuoi obiettivi e la tua struttura.</div>
+          <div class="card-expand">
+            <div class="card-body-full">La ricerca spasmodica del "miglior esercizio per X muscolo" è un vicolo cieco. La scelta dipende dalla struttura individuale, dagli obiettivi, dal livello di esperienza, dalla tolleranza articolare e dal contesto della programmazione. Un esercizio superiore biomeccanicamente può essere la scelta sbagliata per un individuo specifico. La panca piana, ad esempio, non è fondamentale per l'ipertrofia del petto: è uno strumento tra tanti, che funziona bene per alcuni ma rappresenta un compromesso per altri.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DPQ2eFFjeiG" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Panca piana non è fondamentale</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DMpe4aPiNtq" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Il miglior esercizio non esiste</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Selezione</span>
+          <div class="card-title">Multiarticolari vs isolamento</div>
+          <div class="card-title">Multiarticolari vs isolamento</div>
+          <div class="card-preview">Gli esercizi di isolamento hanno vantaggi reali in termini di specificità, ma non sostituiscono in toto i multiarticolari.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Gli esercizi di isolamento offrono maggiore specificità e una gestione più semplice delle variabili. I multiarticolari coinvolgono più muscoli e strutture, ma portano con sé più fatica sistemica e più instabilità. Non esiste un tipo superiore all'altro: la combinazione dipende dal soggetto e dagli obiettivi. Gli esercizi ai cavi non sono inferiori ai multiarticolari "fondamentali" — il muscolo non sa se sta lavorando su un cavo o con un bilanciere.</div>
+            <div class="card-rule info">Il muscolo percepisce solo lo stimolo meccanico, non il tipo di attrezzo. Un curl al cavo ben eseguito vale quanto un curl con bilanciere.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DIV93PPt3-B" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Bayesian curl e cavi</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DHBGiwpN2Gd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Esercizi ai cavi: old school vs science</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Selezione</span>
+          <div class="card-title">Esercizi unilaterali: utili, non sempre obbligatori</div>
+          <div class="card-preview">Non hanno valore intrinseco: diventano utili in contesti specifici, come la gestione di asimmetrie o il miglioramento del controllo motorio.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Gli esercizi unilaterali vengono spesso idolatrati come automaticamente superiori. In realtà, sono strumenti con funzioni precise: utili per migliorare il controllo motorio, gestire asimmetrie o ridurre compensi. Possono essere del tutto superflui se non c'è una reale esigenza. I bilaterali non sono inferiori, i unilaterali non sono superiori. Consigliarli "a prescindere" è come prescrivere un farmaco senza diagnosi.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DP07jqwDZEf" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Esercizi unilaterali</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Meccanica</span>
+          <div class="card-title">Sbarra vs corda nei pushdown al cavo</div>
+          <div class="card-preview">Corda e sbarra cambiano la cinematica del polso e dell'avambraccio, non il profilo di resistenza complessivo dell'esercizio.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Con la sbarra le mani sono vincolate alla stessa distanza e orientamento: la cinematica è più prevedibile ma meno adattabile. Con la corda ogni mano può ruotare e allontanarsi leggermente, riducendo le coppie torsionali sul polso. Il profilo di resistenza però non cambia: la forza arriva sempre dal cavo con la stessa direzione. La scelta tra i due accessori dipende dalla morfologia del polso e dall'avambraccio del soggetto, non da presunte superiorità biomeccaniche di uno sull'altro.</div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-panel" id="train-distretti">
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Glutei</span>
+          <div class="card-title">Il grande gluteo: il muscolo più trascurato</div>
+          <div class="card-preview">Non è un capriccio estetico: è il più potente estensore dell'anca, fondamentale per la postura e la salute della zona lombare.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il grande gluteo permette di erigere il corpo, proiettare il bacino sotto il torace e scaricare il peso dalla zona lombare. Quando è debole, il bacino scivola in antiversione, la lordosi si accentua e la schiena assume responsabilità che non le competono. Il medio gluteo è invece quello che stabilizza il bacino a ogni passo. I muscoli profondi del gluteo sono principalmente stabilizzatori dell'anca: non sono progettati per creare volume, anche quando si adattano all'allenamento l'adattamento è principalmente neuromuscolare, non volumetrico.</div>
+            <div class="card-rule">Per volume e profilo estetico del gluteo servono il grande gluteo e il medio gluteo, non i muscoli profondi — che rimangono piccoli per natura.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DU-rAQ4jQLv" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Grande gluteo trascurato</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DUdLGeYDeCu" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Muscoli profondi gluteo</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Deltoide laterale</span>
+          <div class="card-title">Allenare il deltoide laterale con criterio</div>
+          <div class="card-preview">Serie corte, eccentriche controllate, nessuna illusione sul pump: il deltoide laterale è composto in gran parte da fibre rapide.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il deltoide laterale non cresce con 20 ripetizioni e bruciore intenso. È composto prevalentemente da fibre rapide: si affatica presto, si danneggia facilmente, non regge volumi infiniti. Risponde alla tensione meccanica, non al gonfiore momentaneo. Serie lunghe distruggono la qualità del lavoro senza aggiungere stimolo. Ha senso anche variare la posizione di lavoro: esistono posizioni intermedie del ROM (tra accorciamento e allungamento completo) dove il muscolo ha leva diversa e risponde in modo complementare.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DOvc6QLDRq-" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Deltoide laterale e rep range</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DMsDxM9iq62" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>LTR e posizioni deltoide</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Braccia</span>
+          <div class="card-title">Bicipiti e tricipiti: le serie indirette contano</div>
+          <div class="card-preview">In qualsiasi spinta o tirata ci sono bicipiti e tricipiti che lavorano indirettamente — ma l'ipertrofia generata è limitata.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Le serie indirette (cioè il lavoro su braccia durante esercizi multiarticolari) producono ipertrofia, ma limitata — perché colpiscono principalmente i capi monoarticolari. Per sviluppare pienamente le braccia serve considerare anche il lavoro diretto. Il capo lungo del tricipite, che costituisce circa due terzi del braccio, non riceve sufficiente stimolo indiretto dalle spinte: è multiarticolare e per essere pienamente stimolato ha bisogno di esercizi dove la spalla è flessa.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C7RHdvgCuVo" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Braccia: serie indirette</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DAdSDFGNG-v" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Braccia piccole: consigli</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Ischiocrurali</span>
+          <div class="card-title">Leg curl inclinato in avanti: attenzione all'esecuzione</div>
+          <div class="card-preview">La variante in flessione del busto può aumentare l'allungamento degli ischiocrurali, ma solo se eseguita nel modo corretto.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Gli ischiocrurali sono biarticolari: agire sulla flessione dell'anca può aumentarne l'allungamento. Il problema è che la maggior parte delle esecuzioni viste online non sfrutta questa caratteristica — la sensazione di "stiramento intenso" avvertita non è muscolare ma nervosa. Per aumentare realmente l'allungamento degli ischiocrurali serve portare il bacino in flessione controllata, non semplicemente inclinare il busto con la colonna in cifosi.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DM7ghwDiT14" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Leg curl inclinato in avanti</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DD4QBNhN-tK" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Leg curl variante 2</a>
+          </div>
+            <div class="card-rule danger">"Lo sento tirare tantissimo" non significa stai allungando il muscolo. Potrebbe essere stiramento del nervo sciatico, non ipertrofia.</div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-panel" id="train-accessori">
+      <div class="concepts-grid">
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Straps</span>
+          <div class="card-title">Gli straps non "tolgono lavoro alla presa"</div>
+          <div class="card-preview">Usare gli straps permette ai dorsali di lavorare senza che la presa diventi il fattore limitante. E la presa si rinforza comunque.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Qualcuno deve comunque tenere gli straps in posizione: questo lavoro rinforza comunque la presa nel tempo. Usarli nei movimenti di dorsale evita che la catena cedas al punto più debole (l'avambraccio) prima che il muscolo target sia adeguatamente stimolato. Per chi vuole lavorare specificamente sulla presa, esistono esercizi dedicati. Nei movimenti per il dorsale, la presa raramente è il fattore limitante che si vuole allenare: la priorità è stimolare il gran dorsale.</div>
+            <div class="card-rule">Una sbarra più spessa aumenta il lavoro degli avambraccio e riduce quello del dorsale: in quel caso gli straps diventano ancora più utili.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DQBxxbOjIhf" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Straps: usarli o no</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DCtld41CglD" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Studio sugli straps</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DAsu08Lioft" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Gran dorsale e straps</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Presa</span>
+          <div class="card-title">Pistol grip e thumbless grip: effetti reali</div>
+          <div class="card-preview">L'idea che escludere il pollice "disattivi l'avambraccio" è una semplificazione neurofisiologica errata.</div>
+          <div class="card-expand">
+            <div class="card-body-full">La forza di presa è un segnale afferente potente che facilita per co-attivazione molti muscoli vicini. Escluderla completamente riduce il drive complessivo, potenzialmente il reclutamento delle fibre del muscolo target e la stabilità interna. Al contrario, stringere troppo — specialmente nei neofiti — può portare ad attivare muscoli secondari in modo discontinuo. La soluzione non è un estremo o l'altro: la presa va calibrata al contesto, all'esercizio e all'esperienza del soggetto.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DQ4ADbODVop" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Pistol grip e thumbless</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+        <div class="concept-card" onclick="toggleCard(this)">
+          <span class="card-tag tag-train">Macchinari</span>
+          <div class="card-title">Il joint center dei macchinari</div>
+          <div class="card-preview">Un macchinario mal progettato obbliga il corpo a muoversi lungo traiettorie innaturali, aumentando lo stress articolare e riducendo l'efficacia.</div>
+          <div class="card-expand">
+            <div class="card-body-full">Il joint center è il punto di rotazione del macchinario, che dovrebbe coincidere con l'asse dell'articolazione principale coinvolta nel movimento. Se non coincide, si generano stress articolari aggiuntivi, compensazioni e perdita di efficienza nello stimolo. Un coach che non conosce la meccanica dei macchinari rischia di guidare i propri clienti verso esercizi che affaticano le articolazioni invece di stimolare i muscoli target.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DI_KjycsqjQ" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Joint center macchinari</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DI3cMlaC8Or" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Coach e meccanica macchine</a>
+          </div>
+          </div>
+          <div class="expand-toggle">+ <span>espandi</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUTRIZIONE -->
+<section class="section" id="nutrizione">
+  <div class="section-label">03 — Nutrizione</div>
+  <h2 class="section-title">Mangiare per<br>crescere</h2>
+  <p class="section-desc">La nutrizione nel bodybuilding è circondata da miti, magie metaboliche e mode social. La termodinamica non fa eccezioni per nessuno.</p>
+
+  <div class="concepts-grid">
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-nutr">Principio</span>
+      <div class="card-title">Il bilancio calorico totale è la variabile fondamentale</div>
+      <div class="card-preview">Non esistono finestre magiche, ordini dei pasti miracolosi o insulina da tenere bassa. Conta il bilancio energetico complessivo.</div>
+      <div class="card-expand">
+        <div class="card-body-full">Il corpo umano è un sistema aperto soggetto alle leggi della termodinamica: quando l'energia introdotta supera quella spesa, l'eccesso viene immagazzinato. Quando entrate e uscite coincidono, il peso si mantiene stabile. Il modello carboidrati-insulina — secondo cui i carboidrati ingrassano perché alzano l'insulina — è smentito dalle evidenze: a parità di calorie, la composizione dei macronutrienti ha effetti molto più limitati di quanto propagandato. Il timing dei pasti e l'ordine di assunzione hanno un impatto trascurabile sulla composizione corporea nel lungo termine.</div>
+        <div class="card-rule">Distribuisci le calorie come preferisci durante la giornata: non esistono ore d'oro. Ciò che conta è il totale settimanale.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DQMEAarDUSB" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Zuccheri insulina e miti</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DJjNvuCiOFX" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Digiuno intermittente e bilancio</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-nutr">Surplus calorico</span>
+      <div class="card-title">Il surplus non deve essere eccessivo</div>
+      <div class="card-preview">Più si mangia, più si cresce: falso. Il corpo ha una capacità limitata di sintetizzare nuovo tessuto muscolare per unità di tempo.</div>
+      <div class="card-expand">
+        <div class="card-body-full">Un surplus eccessivo non accelera i progressi: porta soprattutto a un aumento della massa grassa, che poi richiede più tempo in deficit per essere smaltita. Per promuovere l'ipertrofia serve un surplus moderato — sufficiente a sostenere la sintesi proteica, non un'abbuffata prolungata. La "fase di massa" è un concetto valido, ma non va tradotto in eccessi caloricoici esagerati che poi obbligano a "cut" lunghi e impegnativi.</div>
+        <div class="card-rule danger">Surplus eccessivo → più grasso → cut più lungo. Il tempo in surplus aggressivo non è proporzionale alla massa muscolare guadagnata.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DCob44Oip3R" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Surplus calorico eccessivo</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C8_1pTOiO3B" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Fase di massa: mito</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C7WRH_5CYrd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Massa senza surplus?</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-nutr">Deficit calorico</span>
+      <div class="card-title">Allenarsi in deficit: cambia l'approccio</div>
+      <div class="card-preview">In deficit, la capacità di recupero è ridotta. Mantenere lo stesso volume del periodo in normocalorica diventa controproducente.</div>
+      <div class="card-expand">
+        <div class="card-body-full">In un deficit calorico prolungato e intenso, il volume che in normocalorica era "stimolante" rischia di diventare semplicemente distruttivo. Quando il volume supera la capacità di recupero, cala l'output neurale, peggiora la qualità dell'esecuzione e aumenta il rischio di perdere massa muscolare. Ridurre il volume — non l'intensità — durante fasi di deficit intenso è spesso la scelta più intelligente, specialmente man mano che il deficit calorico aumenta nel tempo.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DTXmD0IDcgs" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Allenarsi in deficit</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-nutr">Integratori</span>
+      <div class="card-title">La caffeina: come funziona davvero</div>
+      <div class="card-preview">Berla durante l'allenamento non ha molto senso: la caffeina impiega 30 minuti per entrare in circolo.</div>
+      <div class="card-expand">
+        <div class="card-body-full">La caffeina come pre-workout ha senso assunta 30–45 minuti prima dell'allenamento, non durante. Il caffè ha un effetto più morbido rispetto alla caffeina pura — grazie alla presenza di altri composti bioattivi — ma la tempistica rimane la stessa. Per soggetti di peso maggiore (80 kg+), le quantità presenti in una lattina di energy drink potrebbero non essere sufficienti. Il cortisolo mattutino è già elevato nelle prime ore del giorno: aspettare 60–90 minuti dopo il risveglio prima di assumere caffeina ottimizza l'effetto.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DHqTMEttzlm" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Caffeina durante allenamento</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DGIdABltIo_" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Caffè al mattino e cortisolo</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DPtPLF9jecN" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Il caffè: cosa contiene</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-nutr">Glicogeno</span>
+      <div class="card-title">Il glicogeno nell'allenamento con i pesi</div>
+      <div class="card-preview">Non serve "ricaricare" immediatamente dopo l'allenamento: le scorte non si esauriscono come negli sport di resistenza.</div>
+      <div class="card-expand">
+        <div class="card-body-full">Nel bodybuilding, la deplezione del glicogeno durante l'allenamento è molto più contenuta rispetto agli sport di endurance. Tutte le strategie di reintegro immediato post-workout (barrette, maltodestrine, succhi) servono poco in questo contesto. Il glicogeno è come un serbatoio: durante una sessione di pesi ne viene usata solo una parte, e si ricarica nelle ore successive con una normale alimentazione. Non serve l'urgenza da maratona.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DGiNA5ithDI" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Glicogeno e bodybuilding</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-nutr">Misurazione</span>
+      <div class="card-title">Strumenti di misurazione della composizione corporea</div>
+      <div class="card-preview">BIA, plicometro, metro da sarta: tutti forniscono dati imprecisi e altamente variabili. Non vanno presi come riferimento assoluto.</div>
+      <div class="card-expand">
+        <div class="card-body-full">La bioimpedenziometria (BIA) misura l'impedenza elettrica del corpo per stimare la composizione corporea. Le stime della massa grassa sono però molto imprecise: l'idratazione corporea, il momento della giornata, la salatura dei pasti precedenti e decine di altri fattori alterano significativamente la lettura. Lo stesso vale per il metro da sarta, che misura variazioni di acqua, sale, pump e infiammazione — non l'ipertrofia muscolare vera. Il miglioramento reale si vede nel tempo, sulla progressione delle performance in sala.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DShncITDdYo" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Modelli di misurazione</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DJ30EJOiW-4" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>BIA: limitazioni</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DIJF1jMCcrF" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Metro da sarta e ipertrofia</a>
+          </div>
+        <div class="card-rule">Il metro da sarta che segna +2 cm può indicare più muscolo o semplicemente una giornata più salata. Non è un dato affidabile singolarmente.</div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMMAZIONE -->
+<section class="section" id="programmazione">
+  <div class="section-label">04 — Programmazione</div>
+  <h2 class="section-title">Strutturare il percorso<br>nel tempo</h2>
+  <p class="section-desc">Come si organizzano le variabili dell'allenamento in un piano coerente. Dalla split settimanale fino al macrociclo, tutto dovrebbe avere una logica precisa.</p>
+
+  <div class="concepts-grid">
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-prog">Split</span>
+      <div class="card-title">Non esiste la split "migliore"</div>
+      <div class="card-preview">Full body, push-pull-legs, upper-lower: sono tutte valide. La migliore è quella che permette di allenarti bene e con costanza.</div>
+      <div class="card-expand">
+        <div class="card-body-full">La full body è generalmente superiore a una PPL classica, ma non è universalmente la migliore. Esistono split ancora più efficaci in certi contesti. La scelta dipende da quanti giorni si ha disponibili, dagli obiettivi, dal livello di esperienza e dalla capacità di recupero individuale. Con 1 giorno: full body. Con 2 giorni: push-pull. Con 3–4 giorni: upper-lower o full body strutturata. Con 5+ giorni: split più specializzate, ma solo se si è in grado di gestire volumi alti con qualità.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C_K4niLNt_6" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Quale split scegliere</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DIvtM3jCrFk" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Fullbody vs PPL</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-prog">Variazione</span>
+      <div class="card-title">Quando e come cambiare gli esercizi</div>
+      <div class="card-preview">Cambiare esercizio durante uno stallo non sempre risolve il problema: spesso è solo un "reset" neuromuscolare temporaneo.</div>
+      <div class="card-expand">
+        <div class="card-body-full">Quando si cambia esercizio durante uno stallo, i carichi tornano a salire — ma spesso perché si migliorano coordinazione, attivazione delle unità motorie ed efficienza sinaptica, non perché il muscolo è cresciuto. La ridondanza — ripetere gli stessi schemi motori — non è di per sé negativa: diventa limitante solo quando, lungo l'intero macrociclo, non avviene mai alcuna variazione sugli stimoli meccanici (piani di lavoro, angoli, profili di resistenza). Variare ha senso quando c'è una carenza reale da colmare, non per noia o imitando l'ultimo trend.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C-CyU8fiPpT" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Variare lo stimolo: funziona?</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DUA3xxaDQim" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Ridondanza degli esercizi</a>
+          </div>
+        <div class="card-rule">Cambiare esercizio non è una soluzione universale agli stalli. Prima bisogna diagnosticare la causa dello stallo.</div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-prog">Specializzazione</span>
+      <div class="card-title">Quando e come specializzarsi su un distretto</div>
+      <div class="card-preview">Dedicare più volume e priorità a un gruppo muscolare ha senso solo se c'è una carenza reale da colmare.</div>
+      <div class="card-expand">
+        <div class="card-body-full">La specializzazione su un distretto — dare priorità a braccia, glutei, spalle — ha senso quando quel distretto è effettivamente indietro rispetto al resto. Non ha senso sacrificare muscoli "più importanti" per un distretto che è già in linea. La monofrequenza (allenare un muscolo una sola volta a settimana) può tornare utile per distribuire il lavoro su distretti già avanzati e dare priorità alle carenze, ma in generale non è la scelta ottimale.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DI03Wsdt7O5" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Monofrequenza: quando usarla</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-prog">Deload</span>
+      <div class="card-title">La settimana di scarico: meno utile di quanto si pensi</div>
+      <div class="card-preview">Una settimana di scarico programmata a priori non ha una base fisiologica solida: va usata quando serve davvero.</div>
+      <div class="card-expand">
+        <div class="card-body-full">Essere stanchi o poco performanti in una singola sessione non giustifica uno scarico immediato: le performance sono influenzate da decine di fattori. Gli stalli possono avere cause diverse e vanno diagnosticati. Una settimana di scarico ha senso quando c'è un accumulo reale e documentato di fatica sistemica, non come routine programmata ogni 4–6 settimane indipendentemente da come ci si sente. La risposta individuale alla fatica varia enormemente.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DFFgTKCtvzN" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Settimana di scarico</a>
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/C7WRH_5CYrd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Deload: quando farlo</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="card-tag tag-prog">Principianti</span>
+      <div class="card-title">La differenza tra principiante e intermedio</div>
+      <div class="card-preview">Un intermedio è in grado di arrivare a cedimento con controllo: non solo tecnicamente, ma nella gestione della fatica e della percezione dell'RIR.</div>
+      <div class="card-expand">
+        <div class="card-body-full">Per i principianti, arrivare al cedimento muscolare pulito — senza cheating, senza riduzione del carico interno, senza pause non programmate — è già un obiettivo importante. La progressione sul rep range segue la doppia progressione: prima si aumentano le ripetizioni nel range target, poi il carico. L'obiettivo non è fare volume elevato, ma imparare a esprimere intensità in modo controllato e replicabile.</div>
+          <div class="reel-links">
+            <a class="reel-link" href="https://www.instagram.com/pesce_spalla/reel/DNftVl-MkL5" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Principiante vs intermedio</a>
+          </div>
+      </div>
+      <div class="expand-toggle">+ <span>espandi</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MITI -->
+<section class="section" id="miti">
+  <div class="section-label">05 — Miti & disinformazione</div>
+  <h2 class="section-title">Quello che<br>tutti sbagliano</h2>
+  <p class="section-desc">Il bodybuilding è pieno di credenze diffuse che non trovano supporto scientifico. Ecco le più comuni, smontate.</p>
+
+  <div class="myth-grid">
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Più ripetizioni = più crescita. Il pump è il segnale che stai crescendo.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">Il muscolo risponde alla tensione meccanica, non al bruciore. Oltre le 15 ripetizioni si accumula fatica inutile senza aumentare proporzionalmente l'ipertrofia.</div>
+      </div>
+    </div>
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Prima devi diventare forte (allenarsi per la forza), poi crescerai.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">L'ipertrofia è la causa della forza, non la sua conseguenza. Costruire muscolo è il modo più diretto per diventare più forti nel lungo termine.</div>
+      </div>
+    </div>
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Gli esercizi "fondamentali" (squat, panca, stacco) sono obbligatori per crescere.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">Il muscolo non sa che esercizio stai facendo: percepisce solo lo stimolo meccanico. Non esiste un esercizio obbligatorio per l'ipertrofia.</div>
+      </div>
+    </div>
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Gli straps tolgono lavoro alla presa e non la rinforzano.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">Qualcuno deve tenere gli straps: la presa si rinforza comunque. E usarli nei movimenti di dorsale evita che la presa sia il fattore limitante invece del muscolo target.</div>
+      </div>
+    </div>
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Lo stretching pre e post workout è fondamentale per risultati e recupero.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">Un allenamento ottimale già stretchare il muscolo con tensione su di esso. Lo stretching statico può addirittura ridurre la produzione di forza se fatto prima dell'allenamento.</div>
+      </div>
+    </div>
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Chi è più grosso ha ragione, perché i risultati parlano.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">Il carico sollevato da solo non significa nulla senza il contesto: ROM, controllo, esecuzione, uso di sostanze. Più grosso ≠ più informato.</div>
+      </div>
+    </div>
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Saltare un pasto abbassa l'IGF-1 e "mangia" il muscolo.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">Riduzioni significative dell'IGF-1 si osservano in restrizioni energetiche marcate e prolungate — settimane, non ore. Allenarsi a digiuno non produce catabolismo muscolare acuto.</div>
+      </div>
+    </div>
+    <div class="myth-row">
+      <div class="myth-cell wrong">
+        <div class="myth-label wrong-label">✕ Credenza comune</div>
+        <div class="myth-text">Un esercizio instabile è peggiore di uno stabile per l'ipertrofia.</div>
+      </div>
+      <div class="myth-cell">
+        <div class="myth-label right-label">✓ Realtà</div>
+        <div class="myth-text">Gli esercizi stabili permettono di reclutare più unità motorie con maggiore efficienza, ma la stabilità non è l'unica variabile. Un esercizio meno stabile può avere senso in certi contesti — l'importante è che il muscolo target riceva tensione adeguata.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOSSARIO -->
+<section class="section" id="glossario">
+  <div class="section-label">06 — Glossario</div>
+  <h2 class="section-title">I termini<br>fondamentali</h2>
+  <p class="section-desc">I concetti tecnici che ricorrono più spesso, spiegati in modo chiaro e diretto.</p>
+
+  <div class="glossary-list">
+    <div class="glossary-item">
+      <div class="glossary-term">Tensione meccanica</div>
+      <div class="glossary-def">Il principale stimolo per la crescita muscolare. Si genera quando un muscolo produce forza contro una resistenza, soprattutto in posizione di allungamento.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Ipertrofia</div>
+      <div class="glossary-def">Aumento della sezione trasversa del muscolo tramite l'aumento del numero di sarcomeri in parallelo. È sia la causa che il risultato di un allenamento efficace.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">RIR (Reps in Reserve)</div>
+      <div class="glossary-def">Ripetizioni in riserva: quante ripetizioni potresti ancora fare prima del cedimento. RIR 1 significa fermarsi a 1 rep dal cedimento — spesso il punto di equilibrio ottimale.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Moment arm interno</div>
+      <div class="glossary-def">Distanza perpendicolare tra il centro dell'articolazione e la linea d'azione del muscolo. Determina il vantaggio meccanico del muscolo in un dato punto del ROM.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">LTR (Length-Tension Relationship)</div>
+      <div class="glossary-def">La relazione tra la lunghezza di un muscolo e la forza che riesce a generare. A lunghezze troppo corte o troppo lunghe la forza cala; esiste un range ottimale intermedio.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Profilo di resistenza</div>
+      <div class="glossary-def">La distribuzione della difficoltà lungo il ROM di un esercizio: dove è massima la resistenza esterna rispetto alla curva di forza del muscolo.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Ritmo scapolo-omerale</div>
+      <div class="glossary-def">La coordinazione tra scapola e omero durante i movimenti del braccio. Garantisce che la testa dell'omero rimanga correttamente posizionata e riduce lo stress articolare.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Effective reps</div>
+      <div class="glossary-def">Le ripetizioni di una serie che producono reale stimolo ipertrofico — quelle eseguite in prossimità del cedimento, quando le fibre ad alta soglia sono pienamente reclutate.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Volume spazzatura</div>
+      <div class="glossary-def">Serie che non producono stimolo reale: eseguite troppo lontano dal cedimento, con recuperi insufficienti, con tecnica sporca o con troppo danno muscolare senza adattamento.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Principio di Henneman</div>
+      <div class="glossary-def">Il corpo recluta le unità motorie dal più piccolo al più grande all'aumentare dello sforzo. Le fibre più grandi (ad alta soglia) vengono reclutate solo vicino al cedimento.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Diminishing returns</div>
+      <div class="glossary-def">Oltre una certa soglia di volume, ogni ulteriore serie produce benefici sempre minori ma costi di recupero sempre maggiori. Il volume ottimale non è il massimo possibile.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Sticking point</div>
+      <div class="glossary-def">Il punto del ROM dove un esercizio diventa improvvisamente più difficile a causa di uno svantaggio meccanico o di un calo nella curva di forza del muscolo.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Mesociclo / Macrociclo</div>
+      <div class="glossary-def">Un mesociclo è un blocco di allenamento di 4–8 settimane con obiettivi specifici. Un macrociclo è il piano di allenamento a lungo termine che comprende più mesocicli.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Progressive overload</div>
+      <div class="glossary-def">L'aumento progressivo del carico di lavoro nel tempo. Non è la causa dell'ipertrofia ma la sua conseguenza: il muscolo regge più peso perché è diventato più grande.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Joint center</div>
+      <div class="glossary-def">Il punto di rotazione di un macchinario da palestra, che dovrebbe allinearsi con l'asse dell'articolazione principale del soggetto per garantire un movimento sicuro ed efficace.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-note">Basato su contenuti di pesce_spalla · 297 reel analizzati · Nessun mito risparmiato</div>
+  <div class="footer-tag">// bodybuilding ragionato</div>
+</footer>
+
+<script>
+  function showTab(group, id) {
+    document.querySelectorAll('#tabs-' + group + ' .macro-tab').forEach((t,i) => {
+      t.classList.remove('active');
+    });
+    document.querySelectorAll('#lesson-container-' + group + ' .lesson-panel').forEach(p => {
+      p.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    document.getElementById(group + '-' + id).classList.add('active');
+  }
+
+  function toggleCard(card) {
+    const isExpanded = card.classList.contains('expanded');
+    card.classList.toggle('expanded', !isExpanded);
+    const toggle = card.querySelector('.expand-toggle');
+    if (toggle) {
+      toggle.innerHTML = isExpanded ? '+ <span>espandi</span>' : '− <span>chiudi</span>';
+    }
+  }
+</script>
+</body>
+</html>

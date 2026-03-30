@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheda 4 Giorni — Upper / Lower</title>
+    <meta name="description" content="Scheda di allenamento personalizzata 4 giorni Upper/Lower basata sui principi di Pesce Spalla">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #16161f;
+            --bg-card-hover: #1c1c28;
+            --bg-elevated: #1e1e2a;
+            --surface-glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.06);
+            --border-active: rgba(255, 255, 255, 0.12);
+            --text-primary: #e8e8ed;
+            --text-secondary: #8b8b9e;
+            --text-muted: #56566a;
+            --accent-blue: #4f7df5;
+            --accent-blue-glow: rgba(79, 125, 245, 0.15);
+            --accent-purple: #8b5cf6;
+            --accent-purple-glow: rgba(139, 92, 246, 0.12);
+            --accent-green: #34d399;
+            --accent-green-glow: rgba(52, 211, 153, 0.12);
+            --accent-orange: #f59e0b;
+            --accent-orange-glow: rgba(245, 158, 11, 0.12);
+            --accent-red: #ef4444;
+            --accent-red-glow: rgba(239, 68, 68, 0.1);
+            --accent-cyan: #22d3ee;
+            --day1: #4f7df5;
+            --day1-glow: rgba(79, 125, 245, 0.08);
+            --day2: #34d399;
+            --day2-glow: rgba(52, 211, 153, 0.08);
+            --day3: #8b5cf6;
+            --day3-glow: rgba(139, 92, 246, 0.08);
+            --day4: #f59e0b;
+            --day4-glow: rgba(245, 158, 11, 0.08);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+            --shadow-xl: 0 16px 48px rgba(0,0,0,0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-active) transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-active); border-radius: 3px; }
+
+        /* ========== AMBIENT BACKGROUND ========== */
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .ambient-bg .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+        .ambient-bg .orb:nth-child(1) {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(79,125,245,0.12), transparent 70%);
+            top: -10%; left: -10%;
+            animation-delay: 0s;
+        }
+        .ambient-bg .orb:nth-child(2) {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%);
+            top: 30%; right: -10%;
+            animation-delay: -7s;
+        }
+        .ambient-bg .orb:nth-child(3) {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(52,211,153,0.08), transparent 70%);
+            bottom: 10%; left: 20%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* ========== LAYOUT ========== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== NAVIGATION ========== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(10, 10, 15, 0.75);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        nav.scrolled {
+            background: rgba(10, 10, 15, 0.92);
+            box-shadow: var(--shadow-md);
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        .nav-brand .icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-primary);
+            background: var(--surface-glass);
+        }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px; left: 50%;
+            transform: translateX(-50%);
+            width: 16px; height: 2px;
+            background: var(--accent-blue);
+            border-radius: 1px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--accent-blue-glow);
+            border: 1px solid rgba(79,125,245,0.2);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto 32px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat .value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .hero-stat .label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* ========== SECTIONS ========== */
+        section {
+            padding: 60px 0;
+        }
+        .section-header {
+            margin-bottom: 32px;
+        }
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ========== WEEK VIEW ========== */
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-bottom: 48px;
+        }
+        .week-day {
+            text-align: center;
+            padding: 16px 8px;
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .week-day.active {
+            border-color: var(--border-active);
+        }
+        .week-day .day-name {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .week-day .day-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .week-day.rest .day-label {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .week-day.d1 { border-color: rgba(79,125,245,0.3); background: var(--day1-glow); }
+        .week-day.d1 .day-label { color: var(--day1); }
+        .week-day.d2 { border-color: rgba(52,211,153,0.3); background: var(--day2-glow); }
+        .week-day.d2 .day-label { color: var(--day2); }
+        .week-day.d3 { border-color: rgba(139,92,246,0.3); background: var(--day3-glow); }
+        .week-day.d3 .day-label { color: var(--day3); }
+        .week-day.d4 { border-color: rgba(245,158,11,0.3); background: var(--day4-glow); }
+        .week-day.d4 .day-label { color: var(--day4); }
+
+        /* ========== DAY CARDS ========== */
+        .day-section {
+            margin-bottom: 48px;
+            animation: fadeInUp 0.5s ease both;
+        }
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 20px 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .day-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+        }
+        .day-header.d1 { background: var(--day1-glow); }
+        .day-header.d1::before { background: linear-gradient(90deg, var(--day1), transparent); }
+        .day-header.d2 { background: var(--day2-glow); }
+        .day-header.d2::before { background: linear-gradient(90deg, var(--day2), transparent); }
+        .day-header.d3 { background: var(--day3-glow); }
+        .day-header.d3::before { background: linear-gradient(90deg, var(--day3), transparent); }
+        .day-header.d4 { background: var(--day4-glow); }
+        .day-header.d4::before { background: linear-gradient(90deg, var(--day4), transparent); }
+
+        .day-number {
+            width: 48px; height: 48px;
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            flex-shrink: 0;
+        }
+        .d1 .day-number { background: rgba(79,125,245,0.15); color: var(--day1); }
+        .d2 .day-number { background: rgba(52,211,153,0.15); color: var(--day2); }
+        .d3 .day-number { background: rgba(139,92,246,0.15); color: var(--day3); }
+        .d4 .day-number { background: rgba(245,158,11,0.15); color: var(--day4); }
+
+        .day-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .day-info .subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        .day-meta {
+            margin-left: auto;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .day-meta-item {
+            text-align: center;
+        }
+        .day-meta-item .meta-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .day-meta-item .meta-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* ========== EXERCISE TABLE ========== */
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .exercise-row {
+            display: grid;
+            grid-template-columns: 36px 1fr 90px 70px;
+            gap: 16px;
+            align-items: start;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+        .exercise-row.has-guide .exercise-name::after {
+            content: ' ⓘ';
+            font-size: 11px;
+            color: var(--accent-blue);
+            opacity: 0.6;
+        }
+        .exercise-row:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-active);
+            transform: translateX(4px);
+        }
+        .exercise-num {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: var(--surface-glass);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            flex-shrink: 0;
+        }
+        .exercise-info {
+            min-width: 0;
+        }
+        .exercise-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .exercise-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .exercise-sets {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            white-space: nowrap;
+        }
+        .exercise-rest {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* ========== PRINCIPLES GRID ========== */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+        }
+        .principle-card {
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all 0.25s ease;
+        }
+        .principle-card:hover {
+            border-color: var(--border-active);
+            background: var(--bg-card-hover);
+        }
+        .principle-card .principle-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .principle-card .principle-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ========== ADAPTATIONS ========== */
+        .adaptations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        .adaptation-card {
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--accent-orange);
+        }
+        .adaptation-card .problem {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 6px;
+        }
+        .adaptation-card .solution {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ========== VOLUME TABLE ========== */
+        .volume-table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+        .volume-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .volume-table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-elevated);
+            white-space: nowrap;
+        }
+        .volume-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .volume-table tr:last-child td { border-bottom: none; }
+        .volume-table tr:hover td { background: var(--surface-glass); }
+        .volume-table td:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .volume-table td:last-child {
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+        }
+
+        /* ========== NOTES ========== */
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .note-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+        .note-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-purple);
+            flex-shrink: 0;
+            width: 24px;
+        }
+        .note-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .note-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            padding: 48px 0 32px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 48px;
+        }
+        footer p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 64px; left: 0; right: 0;
+                background: rgba(10,10,15,0.95);
+                backdrop-filter: blur(20px);
+                padding: 16px;
+                border-bottom: 1px solid var(--border);
+                gap: 4px;
+            }
+            .mobile-toggle { display: block; }
+            .week-grid {
+                grid-template-columns: repeat(7, 1fr);
+                gap: 4px;
+            }
+            .week-day { padding: 12px 4px; }
+            .week-day .day-name { font-size: 9px; }
+            .week-day .day-label { font-size: 10px; }
+            .exercise-row {
+                grid-template-columns: 28px 1fr;
+                gap: 12px;
+            }
+            .exercise-sets {
+                grid-column: 2;
+                margin-top: -4px;
+            }
+            .exercise-rest {
+                grid-column: 2;
+                margin-top: -8px;
+            }
+            .day-meta { display: none; }
+            .hero-stats { gap: 20px; }
+            .principles-grid { grid-template-columns: 1fr; }
+            .adaptations-grid { grid-template-columns: 1fr; }
+            .volume-table { font-size: 12px; }
+            .volume-table th, .volume-table td { padding: 10px 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 28px; }
+        }
+
+        /* ========== EXERCISE GUIDE PANEL ========== */
+        .exercise-guide {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            margin-top: -7px;
+            margin-bottom: 1px;
+            padding: 0 20px;
+        }
+        .exercise-guide.open {
+            max-height: 1200px;
+            opacity: 1;
+            padding: 16px 20px 20px;
+        }
+        .exercise-guide .guide-section {
+            margin-bottom: 12px;
+        }
+        .exercise-guide .guide-section:last-child { margin-bottom: 0; }
+        .exercise-guide .guide-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+        }
+        .exercise-guide .guide-text {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+        .exercise-guide .guide-sources {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+        .exercise-guide .guide-sources a {
+            display: inline-block;
+            font-size: 11px;
+            color: var(--accent-purple);
+            text-decoration: none;
+            margin-right: 12px;
+            margin-bottom: 4px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        .exercise-guide .guide-sources a:hover { opacity: 1; }
+        .exercise-row.expanded {
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            border-bottom-color: transparent;
+            background: var(--bg-card-hover);
+        }
+    </style>
+</head>
+<body>
+
+<div class="ambient-bg">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+</div>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <div class="nav-brand">
+            <div class="icon">🐟</div>
+            <span>Scheda Massimo</span>
+        </div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#overview" class="active">Piano</a></li>
+            <li><a href="#day1">Giorno 1</a></li>
+            <li><a href="#day2">Giorno 2</a></li>
+            <li><a href="#day3">Giorno 3</a></li>
+            <li><a href="#day4">Giorno 4</a></li>
+            <li><a href="#volume">Volume</a></li>
+            <li><a href="#notes">Note</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="overview">
+    <div class="container">
+        <div class="hero-badge">⚡ Fase Surplus</div>
+        <h1>Upper / Lower<br><span class="gradient">4 Giorni</span></h1>
+        <p>Scheda personalizzata basata sui principi di Pesce Spalla. Priorità su schiena e spalle. Volume ragionato, intensità alta.</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="value" style="color: var(--accent-blue)">4</div>
+                <div class="label">Sessioni / Settimana</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value" style="color: var(--accent-green)">~6</div>
+                <div class="label">Set / Muscolo / Seduta</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value" style="color: var(--accent-purple)">5-10</div>
+                <div class="label">Rep Range</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value" style="color: var(--accent-orange)">90'</div>
+                <div class="label">Durata sessione</div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- WEEK VIEW -->
+    <section class="fade-in">
+        <div class="section-header">
+            <h2>Distribuzione settimanale</h2>
+            <p>Upper-Lower con spalle traslate nelle sessioni Lower</p>
+        </div>
+        <div class="week-grid">
+            <div class="week-day d1 active">
+                <div class="day-name">Lun</div>
+                <div class="day-label">Upper A</div>
+            </div>
+            <div class="week-day d2 active">
+                <div class="day-name">Mar</div>
+                <div class="day-label">Lower A</div>
+            </div>
+            <div class="week-day rest">
+                <div class="day-name">Mer</div>
+                <div class="day-label">Riposo</div>
+            </div>
+            <div class="week-day d3 active">
+                <div class="day-name">Gio</div>
+                <div class="day-label">Upper B</div>
+            </div>
+            <div class="week-day d4 active">
+                <div class="day-name">Ven</div>
+                <div class="day-label">Lower B</div>
+            </div>
+            <div class="week-day rest">
+                <div class="day-name">Sab</div>
+                <div class="day-label">Riposo</div>
+            </div>
+            <div class="week-day rest">
+                <div class="day-name">Dom</div>
+                <div class="day-label">Riposo</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADAPTATIONS -->
+    <section class="fade-in">
+        <div class="section-header">
+            <h2>🎯 Adattamenti per te</h2>
+            <p>Personalizzazioni basate sulla tua analisi posturale e problematiche</p>
+        </div>
+        <div class="adaptations-grid">
+            <div class="adaptation-card">
+                <div class="problem">🦵 Ginocchio (Osgood-Schlatter)</div>
+                <div class="solution">No squat libero. Leg press piedi centrali. Leg curl unilaterale con pad. Se dolore → stop immediato.</div>
+            </div>
+            <div class="adaptation-card">
+                <div class="problem">🔺 Trapezio iperattivo / Asimmetria</div>
+                <div class="solution">Depressione scapolare SEMPRE prima di ogni tirata e spinta. Lat machine con gomiti antepositi 45°. Alzate laterali dal davanti.</div>
+            </div>
+            <div class="adaptation-card">
+                <div class="problem">🦴 Scoliosi / Rotazione pelvica</div>
+                <div class="solution">Correggere posizione bacino su ogni macchina (gluteo dx indietro). Esercizi unilaterali dove possibile.</div>
+            </div>
+            <div class="adaptation-card">
+                <div class="problem">💪 Deltoide posteriore dominante</div>
+                <div class="solution">Ridurre carico 10-15% se non senti il muscolo target. Tecnica > sensazione > carico.</div>
+            </div>
+        </div>
+    </section>
+    <!-- PROGRESSIONE -->
+    <section class="fade-in">
+        <div class="section-header">
+            <h2>📈 Come Progredire (Sovraccarico)</h2>
+            <p>Le regole della Doppia Progressione spiegate in sintesi</p>
+        </div>
+        <div class="notes-list">
+            <div class="note-item">
+                <div class="note-num">01</div>
+                <div class="note-text">
+                    <strong>Il Sovraccarico è una conseguenza:</strong> Non cresci perché aumenti i carichi, ma i carichi aumentano perché sei cresciuto. Il sovraccarico è un modo per mantenere la tensione meccanica costante e tracciare che stai migliorando.
+                </div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">02</div>
+                <div class="note-text">
+                    <strong>La Regola del Range (es. 6-8 resp):</strong> Quando la tua <strong>prima serie</strong> (da fresco) raggiunge o supera il limite massimo del range (es. 8 o 9 colpi a cedimento/RIR 0 perfetti), <strong>al prossimo allenamento aumenta il carico</strong>. Subito dopo, le tue ripetizioni caleranno fisiologicamente e ricomincerai a dare battaglia per tornare a quel numero.
+                </div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">03</div>
+                <div class="note-text">
+                    <strong>Calare i colpi nella Serie 2 è ORO:</strong> Se nella prima serie fai 6 colpi e nella seconda scendi a 5... va benissimo e NON devi diminuire il peso. Il calo di ripetizioni testimonia soltanto che hai spinto la prima serie al vero cedimento accumulando fatica muscolare reale. Chi comanda è sempre e solo la Serie 1.
+                </div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">04</div>
+                <div class="note-text">
+                    <strong>Pazienza sui muscoli piccoli:</strong> Le alzate laterali, i polpacci o i bicipiti progrediranno con tempistiche lentissime. Assicurati di sbloccare stalli sui grandi multiarticolari (Chest Press, Lat Machine, Pressa) e tutto il corpo, incluse le braccia, risponderà alla progressione e crescerà di riflesso.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAY 1 -->
+    <section id="day1" class="day-section fade-in">
+        <div class="day-header d1">
+            <div class="day-number">01</div>
+            <div class="day-info">
+                <h3>Upper A</h3>
+                <div class="subtitle">Focus: Schiena + Petto</div>
+            </div>
+            <div class="day-meta">
+                <div class="day-meta-item">
+                    <div class="meta-value">6</div>
+                    <div class="meta-label">Esercizi</div>
+                </div>
+                <div class="day-meta-item">
+                    <div class="meta-value">~75'</div>
+                    <div class="meta-label">Durata</div>
+                </div>
+            </div>
+        </div>
+        <div class="exercise-list">
+            <div class="exercise-row">
+                <div class="exercise-num">1</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Lat Machine — presa neutra</div>
+                    <div class="exercise-note">Gomiti antepositi 45°. Depressione scapolare dall'inizio. Eccentrica completa con elevazione scapolare. Straps.</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">2</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Pulley basso (Low Row) — presa neutra</div>
+                    <div class="exercise-note">Scapole libere, protrazione in eccentrica. Tirare con i gomiti, non le mani. Straps.</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">3</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Chest Press inclinata (macchina)</div>
+                    <div class="exercise-note">Fasci alti prioritari. Espansione toracica, scapole depresse. Fermo attivo in allungamento (1-2s).</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">4</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Chest Press orizzontale (macchina)</div>
+                    <div class="exercise-note">Se non disponibile: Pec Deck (più stabile delle croci ai cavi).</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">5</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Overhead Extension al cavo (corda)</div>
+                    <div class="exercise-note">Capo lungo del tricipite (biarticolare – dorme nelle spinte). Parziali in allungamento.</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">6</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Curl al cavo basso — gomito lungo il fianco</div>
+                    <div class="exercise-note">Cavo all'altezza del bacino. Tensione in allungamento. Thumbless grip opzionale.</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAY 2 -->
+    <section id="day2" class="day-section fade-in">
+        <div class="day-header d2">
+            <div class="day-number">02</div>
+            <div class="day-info">
+                <h3>Lower A</h3>
+                <div class="subtitle">Focus: Quadricipiti + Spalle</div>
+            </div>
+            <div class="day-meta">
+                <div class="day-meta-item">
+                    <div class="meta-value">6</div>
+                    <div class="meta-label">Esercizi</div>
+                </div>
+                <div class="day-meta-item">
+                    <div class="meta-value">~80'</div>
+                    <div class="meta-label">Durata</div>
+                </div>
+            </div>
+        </div>
+        <div class="exercise-list">
+            <div class="exercise-row">
+                <div class="exercise-num">1</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Alzate laterali al cavo (singolo)</div>
+                    <div class="exercise-note">Cavo DAL DAVANTI, piedi vicini alla carrucola, inclinarsi dal lato opposto. Spalla depressa, alzare solo col gomito. Inizia col lato debole.</div>
+                </div>
+                <div class="exercise-sets">3 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">2</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Leg Press 45°</div>
+                    <div class="exercise-note">Piedi larghezza spalle, centrali sulla pedana (NON troppo in alto). Correggi posizione bacino (gluteo dx indietro).</div>
+                </div>
+                <div class="exercise-sets">3 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">3</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Leg Extension</div>
+                    <div class="exercise-note">Focus sul vasto laterale e mediale. Se fastidio al ginocchio → ridurre ROM, lavorare medio-accorciato.</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">4</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Leg Curl unilaterale (con pad)</div>
+                    <div class="exercise-note">Pad tra gambe e cuscinetto. Se dolore al ginocchio: cedimento basato sulla percezione muscolare, non sul dolore.</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10 /gamba</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">5</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Leg Press 45° — piedi alti, stance larga</div>
+                    <div class="exercise-note">Flessione d'anca ampia → glutei in allungamento. Tensione su ischiocrurali e glutei.</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">6</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Face Pull al cavo</div>
+                    <div class="exercise-note">Lavoro sull'upperback e postura. Rep range più alto (lavoro accessorio posturale).</div>
+                </div>
+                <div class="exercise-sets">2 × 10-12</div>
+                <div class="exercise-rest">2 min</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAY 3 -->
+    <section id="day3" class="day-section fade-in">
+        <div class="day-header d3">
+            <div class="day-number">03</div>
+            <div class="day-info">
+                <h3>Upper B</h3>
+                <div class="subtitle">Focus: Schiena + Petto — variazione profilo di resistenza</div>
+            </div>
+            <div class="day-meta">
+                <div class="day-meta-item">
+                    <div class="meta-value">6</div>
+                    <div class="meta-label">Esercizi</div>
+                </div>
+                <div class="day-meta-item">
+                    <div class="meta-value">~75'</div>
+                    <div class="meta-label">Durata</div>
+                </div>
+            </div>
+        </div>
+        <div class="exercise-list">
+            <div class="exercise-row">
+                <div class="exercise-num">1</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Iliac Pulldown (con panca)</div>
+                    <div class="exercise-note">Fasci bassi del dorsale. Panca per miglior controllo posturale. Straps.</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">2</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Pulley alto — presa neutra, in cifosi</div>
+                    <div class="exercise-note">Focus fasci toracici del dorsale. Cifosi = riduce upperback e isola il dorsale. Profilo diverso da G1.</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">3</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Spinte inclinata manubri / Smith</div>
+                    <div class="exercise-note">NON arcare troppo (diventa panca piana). Scapole depresse. Varia rispetto alla chest press del G1.</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">4</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Pec Fly (macchina)</div>
+                    <div class="exercise-note">Lavoro in allungamento sul petto. Stabile, basso danno muscolare (meglio delle croci ai cavi).</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">5</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Pushdown al cavo — corda lunga / Vulken</div>
+                    <div class="exercise-note">Capi monoarticolari tricipite. Gomiti abdotti ~30°. Thumbless grip. Non distanziarsi troppo dal cavo.</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">6</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Curl al cavo medio — gomito lungo il fianco</div>
+                    <div class="exercise-note">Variante più sicura del cavo alto. Peak tension in posizione medio-allungata.</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAY 4 -->
+    <section id="day4" class="day-section fade-in">
+        <div class="day-header d4">
+            <div class="day-number">04</div>
+            <div class="day-info">
+                <h3>Lower B</h3>
+                <div class="subtitle">Focus: Femorali / Glutei + Spalle</div>
+            </div>
+            <div class="day-meta">
+                <div class="day-meta-item">
+                    <div class="meta-value">6</div>
+                    <div class="meta-label">Esercizi</div>
+                </div>
+                <div class="day-meta-item">
+                    <div class="meta-value">~80'</div>
+                    <div class="meta-label">Durata</div>
+                </div>
+            </div>
+        </div>
+        <div class="exercise-list">
+            <div class="exercise-row">
+                <div class="exercise-num">1</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Alzate laterali al cavo (singolo)</div>
+                    <div class="exercise-note">Stessa esecuzione del G2. Multifrequenza sulle spalle (priorità tua).</div>
+                </div>
+                <div class="exercise-sets">3 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">2</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Seated Leg Curl bilaterale</div>
+                    <div class="exercise-note">Busto inclinato in avanti (flessione d'anca, NON cifosi — non fare il gambero). Se fastidio ginocchio → ridurre ROM.</div>
+                </div>
+                <div class="exercise-sets">3 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">3</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Leg Press 45° — piedi alti / larghi</div>
+                    <div class="exercise-note">Focus glutei e femorali (flessione d'anca ampia). Correggere il bacino.</div>
+                </div>
+                <div class="exercise-sets">2 × 6-8</div>
+                <div class="exercise-rest">3 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">4</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Leg Extension</div>
+                    <div class="exercise-note">Quadricipiti. Lavoro complementare.</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2.5 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">5</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Adductor Machine</div>
+                    <div class="exercise-note">Lavoro sugli adduttori (spesso trascurati).</div>
+                </div>
+                <div class="exercise-sets">2 × 8-10</div>
+                <div class="exercise-rest">2 min</div>
+            </div>
+            <div class="exercise-row">
+                <div class="exercise-num">6</div>
+                <div class="exercise-info">
+                    <div class="exercise-name">Face Pull / Rear Delt al cavo</div>
+                    <div class="exercise-note">Upperback + deltoide posteriore. Lavoro posturale.</div>
+                </div>
+                <div class="exercise-sets">2 × 10-12</div>
+                <div class="exercise-rest">2 min</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VOLUME TABLE -->
+    <section id="volume" class="fade-in">
+        <div class="section-header">
+            <h2>📊 Volume settimanale</h2>
+            <p>Serie dirette allenanti per gruppo muscolare. "Fare tanto non significa fare meglio."</p>
+        </div>
+        <div class="volume-table-wrap">
+            <table class="volume-table">
+                <thead>
+                    <tr>
+                        <th>Muscolo</th>
+                        <th>G1</th>
+                        <th>G2</th>
+                        <th>G3</th>
+                        <th>G4</th>
+                        <th>Totale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Dorsale</td><td>4</td><td>—</td><td>4</td><td>—</td><td>8</td></tr>
+                    <tr><td>Upperback</td><td>—</td><td>2</td><td>—</td><td>2</td><td>4</td></tr>
+                    <tr><td>Petto</td><td>4</td><td>—</td><td>4</td><td>—</td><td>8</td></tr>
+                    <tr><td>Spalle (lat)</td><td>—</td><td>3</td><td>—</td><td>3</td><td>6</td></tr>
+                    <tr><td>Tricipiti</td><td>2 (+4 ind.)</td><td>—</td><td>2 (+4 ind.)</td><td>—</td><td>4 dir. + ~4 ind.</td></tr>
+                    <tr><td>Bicipiti</td><td>2 (+4 ind.)</td><td>—</td><td>2 (+4 ind.)</td><td>—</td><td>4 dir. + ~4 ind.</td></tr>
+                    <tr><td>Quadricipiti</td><td>—</td><td>5</td><td>—</td><td>2</td><td>7</td></tr>
+                    <tr><td>Femorali</td><td>—</td><td>2</td><td>—</td><td>3</td><td>5</td></tr>
+                    <tr><td>Glutei</td><td>—</td><td>2</td><td>—</td><td>2</td><td>4</td></tr>
+                    <tr><td>Adduttori</td><td>—</td><td>—</td><td>—</td><td>2</td><td>2</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="fade-in">
+        <div class="section-header">
+            <h2>🐟 Principi applicati</h2>
+            <p>Ogni scelta è basata sui contenuti di Pesce Spalla</p>
+        </div>
+        <div class="principles-grid">
+            <div class="principle-card">
+                <div class="principle-title">Tensione meccanica</div>
+                <div class="principle-text">Unico driver reale dell'ipertrofia. Il reclutamento delle unità motorie da solo NON basta — serve tensione meccanica significativa.</div>
+            </div>
+            <div class="principle-card">
+                <div class="principle-title">Rep range bassi (5-10)</div>
+                <div class="principle-text">Riduzione fatica metabolica, ipertrofia miofibrillare, miglior coordinazione neuromuscolare, maggior reclutamento fibre ad alta soglia.</div>
+            </div>
+            <div class="principle-card">
+                <div class="principle-title">Esercizi stabili</div>
+                <div class="principle-text">Macchinari e cavi riducono la dissipazione di forze e l'accumulo di fatica dagli stabilizzatori. Più stimolo dove serve.</div>
+            </div>
+            <div class="principle-card">
+                <div class="principle-title">Cedimento per neofiti</div>
+                <div class="principle-text">Se non sai stimare il RIR, vai a cedimento. Col tempo imparerai a lavorare in buffer allenante (RIR 0-1).</div>
+            </div>
+            <div class="principle-card">
+                <div class="principle-title">Volume ragionato (~6 set)</div>
+                <div class="principle-text">L'ipertrofia ha rendimenti decrescenti oltre ~6-8 serie pesanti a seduta. Il neofita è più sensibile al danno muscolare.</div>
+            </div>
+            <div class="principle-card">
+                <div class="principle-title">Progressione a due vie</div>
+                <div class="principle-text">+1 rep alla volta. Raggiunto il top del range → resetta le rep e alza il carico. Il sovraccarico progressivo è conseguenza, non causa.</div>
+            </div>
+            <div class="principle-card">
+                <div class="principle-title">Profili di resistenza variati</div>
+                <div class="principle-text">Tra G1 e G3 cambia il profilo (lat machine vs iliac pulldown, pulley basso vs alto). Stimoli diversi sullo stesso muscolo.</div>
+            </div>
+            <div class="principle-card">
+                <div class="principle-title">Allungamento > Accorciamento</div>
+                <div class="principle-text">Tensione in allungamento porta più risultati. Fermo attivo senza perdita di tensione, no rimbalzi (stretch reflex).</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTES -->
+    <section id="notes" class="fade-in">
+        <div class="section-header">
+            <h2>📝 Note operative</h2>
+        </div>
+        <div class="notes-list">
+            <div class="note-item">
+                <div class="note-num">01</div>
+                <div class="note-text"><strong>Serie di avvicinamento:</strong> 1-2 serie leggere per ogni esercizio prima delle working set. Preparano articolazioni e schema motorio.</div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">02</div>
+                <div class="note-text"><strong>Logbook:</strong> segna TUTTO — carico, ripetizioni, sensazioni. Le progressioni si valutano sul lungo periodo, mai sulla singola seduta.</div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">03</div>
+                <div class="note-text"><strong>Stallo 2+ settimane:</strong> non cambiare esercizio. Prima verifica sonno, alimentazione, stress. Poi valuta tecnica e carico.</div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">04</div>
+                <div class="note-text"><strong>Mobilità pre-workout:</strong> 5-10 minuti di mobilità articolare. Poi serie di avvicinamento. Niente stretching statico.</div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">05</div>
+                <div class="note-text"><strong>Postura:</strong> su OGNI esercizio, correggi la rotazione del bacino e deprimi le scapole. Questo è il tuo lavoro principale ora.</div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">06</div>
+                <div class="note-text"><strong>Ego lifting:</strong> se non senti il muscolo target → riduci il carico del 15-20%. <em>Tecnica → Sensazione → Carico.</em></div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">07</div>
+                <div class="note-text"><strong>Eccentrica:</strong> controllata, 2-3 secondi. Mai rimbalzare. Fermo attivo in allungamento dove indicato (1-2s).</div>
+            </div>
+            <div class="note-item">
+                <div class="note-num">08</div>
+                <div class="note-text"><strong>Recupero:</strong> 2.5-3 min standard, 3-3.5 min sui composti pesanti. Non accorciare i recuperi — qualità dei set prima di tutto.</div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <p>Scheda basata sui principi di <a href="https://www.instagram.com/pesce_spalla/" target="_blank" rel="noopener">@pesce_spalla</a> · Personalizzata per Massimo · Fase Surplus</p>
+    </div>
+</footer>
+
+<script>
+    // Navbar scroll effect
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile toggle
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('open');
+        });
+    });
+
+    // ScrollSpy for nav links
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const observerOptions = { rootMargin: '-40% 0px -60% 0px' };
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const id = entry.target.id;
+                const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, observerOptions);
+    sections.forEach(s => observer.observe(s));
+
+    // Fade-in on scroll
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                fadeObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => fadeObserver.observe(el));
+
+    // ========== EXERCISE EXECUTION GUIDES ==========
+    const guides = {
+      'Lat Machine — presa neutra': {
+        sections: [
+          { label: 'Perché questa variante e l\'Inclinazione', text: 'La lat machine non ragiona per piani rigidi. Il piano scapolare (~30-45° anteriore al piano frontale) offre il miglior centraggio sulla glena, minori stress di taglio e una meccanica più fluida tra scapola e omero, rendendolo la soluzione più stabile e tollerabile nel lungo termine. Inoltre, un\'inclinazione del busto all\'indietro di circa 10-15° è l\'unica "vera scorciatoia" per allineare le fibre inferiori (fasci iliaci) del gran dorsale con la resistenza del cavo, permettendo un\'estensione omerale quasi pura.' },
+          { label: 'Errori Comuni: Inclinazione e Scapole', text: 'Inclinarsi troppo (>30°) trasforma un magnifico esercizio di trazione verticale in un rematore, annientando il focus sui fasci bassi a favore di trapezi e romboidi. L\'altro errore critico è bloccare le scapole forzatamente nel tentativo di "sentire di più" il dorso in isolamento: la scapola deve muoversi liberamente in elevazione e depressione in totale sincronia con l\'omero (ritmo scapolo-omerale). Interrompere questa coordinazione genera compensi e potenziali lesioni articolari.' }
+        ],
+        sources: [
+          { label: 'Piani lat machine', url: 'https://www.instagram.com/pesce_spalla/reel/DUsouAdDWSF' },
+          { label: 'Fasci iliaci', url: 'https://www.instagram.com/pesce_spalla/reel/DV0uiyaDfbb' },
+          { label: 'Ritmo scapolo-omerale', url: 'https://www.instagram.com/pesce_spalla/reel/C9zVpHitRJI' },
+          { label: 'Elevazione eccentrica', url: 'https://www.instagram.com/pesce_spalla/reel/DFsIRDzCIrF' }
+        ]
+      },
+      'Pulley basso (Low Row) — presa neutra': {
+        sections: [
+          { label: 'Focus muscolare e Variante Classica', text: 'A differenza della lat machine che enfatizza i fasci inferiori, le tirate orizzontali del pulley colpiscono in primis i fasci toracici (alti/orizzontali) del gran dorsale. La variante "Classica" raccomandata qui prevede la totale libertà di movimento delle scapole in protrazione e retrazione. Durante la protrazione (fase eccentrica), la scapola si allontana stirando le fibre del dorso.' },
+          { label: 'Perché sceglierla', text: 'È la variante assoluta da prediligere per gli atleti non avanzatissimi privi di asimmetrie gravose, per chi ha budget di tempo limitato o per completare il lavoro sull\'upper back, poiché il reclutamento coinvolge fortemente anche i retrattori scapolari e il centro-schiena in un unico movimento corale.' },
+          { label: 'Errori Comuni ed Esecuzione', text: 'Trattenere forzatamente le scapole depresse e addotte, che rende il lavoro frammentario. Ricorda sempre di pensare a "tirare con i gomiti e non con le mani" per disattivare mentalmente i grossi muscoli del braccio. L\'uso degli straps è quasi d\'obbligo per disaccoppiare la stanchezza dell\'avambraccio da quella dorsale.' }
+        ],
+        sources: [
+          { label: 'Tirate orizzontali e pulley', url: 'https://www.instagram.com/pesce_spalla/reel/DFsIRDzCIrF' }
+        ]
+      },
+      'Chest Press inclinata (macchina)': {
+        sections: [
+          { label: 'Perché questo esercizio (Macchina vs Panca)', text: 'Rispetto alla panca inclinata tradizionale (con bilanciere o manubri), dove i vantaggi angolari spesso svaniscono per compensi sistemici o l\'esasperazione dell\'arco lombare, l\'impiego di una solida Chest Press annulla la fatica di stabilizzazione ed eroga stabilità pura. Considera inoltre che i fasci clavicolari compongono non oltre il 15% del tessuto pettorale totale: non serve una moltitudine di esercizi "alti", ne basta uno ma massimizzato metabolicamente.' },
+          { label: 'Errori Comuni: Lo Stretch Reflex', text: 'Un errore drastico ma estremamente diffuso è affondare l\'eccentrica velocemente e/o con carichi non padroneggiabili per sfruttare il rimbalzo. Questo attiva lo "stretch reflex" (riflesso miotatico): una risposta neuromuscolare autonoma di difesa che riduce tangibilmente la volontarietà della contrazione e svuota la concentrica, limitando l\'ipertrofia reale. Occorre un\'eccentrica spietatamente controllata (2-3s).' },
+          { label: 'ROM, Leve e Focus', text: 'La rincorsa al "maximum ROM e allungamento estremo" fa bene ai post social ma meno ai tessuti se supera l\'attiva mobilità glenomerale del soggetto. Utilizzare un ROM sensato e fermo attivo controllato (1s) in fisiologico allungamento senza decurtare bruscamente la tensione.' }
+        ],
+        sources: [
+          { label: 'Spinte inclinate', url: 'https://www.instagram.com/pesce_spalla/reel/DP6DchLjdlb' },
+          { label: 'Stretch reflex', url: 'https://www.instagram.com/pesce_spalla/reel/C3zyDtyNjzk' },
+          { label: 'ROM e leve', url: 'https://www.instagram.com/pesce_spalla/reel/C8eYhEBNpim' }
+        ]
+      },
+      'Chest Press orizzontale (macchina)': {
+        sections: [
+          { label: 'Perché sceglierla e non la Panca Libera', text: 'Nel contesto focalizzato puramente sull\'ipertrofia, una Chest Press orizzontale annichilisce le varianti libere su panca per efficienza. La panca piana crea instabilità neuronale, sposta il macro-focus sulla pura spinta meccanica sistemica e allontana dal target pettorale. L\'assenza di balance training della macchina permette il cedimento del muscolo e non del sistema nervoso.' },
+          { label: 'Macchine valide ed Errori Comuni', text: 'Scegliere un macchinario comodo, stabile e confortevole per l\'articolazione è categorico (Panatta ne produce di invidiabili). Il compenso d\'eccellenza in questo macchinario tuttavia è "decollare" con la bassa schiena dal bacino durante la chiusura, il che trasforma il fascio sterno-costale in asse declinata. Se il peso fa staccare dallo schienale per foga progressiva, quel peso non ti appartiene.' }
+        ],
+        sources: [
+          { label: 'Chest press vs panca', url: 'https://www.instagram.com/pesce_spalla/reel/C-xIuboNSBh' },
+          { label: 'Macchinari Panatta', url: 'https://www.instagram.com/pesce_spalla/reel/DH0fliytHaE' }
+        ]
+      },
+      'Overhead Extension al cavo (corda)': {
+        sections: [
+          { label: 'Perché il Capo Lungo', text: 'Dei tre capi che compongono il tricipite mastodontico, solo uno è biarticolare: il capo lungo. Essendo doppiamente ancorato, la muscolatura "dorme" sonoramente durante i Pushdown base o le spinte di petto, ove domina il deltoide per controbilanciare. È obbligatorio un movimento a spalla interamente flessa.' },
+          { label: 'Altezza del cavo e Setup Errori', text: 'Un errore ricorrente è installare la carrucola in basso forzando l\'entrata maldestra nell\'esercizio con carichi importanti. Il setup ideale prevede l\'ancoraggio ad altezza media (circa il bacino). Così fissata, quando l\'estensore si trova in posizione di braccia innalzate con massima flessione di gomito, il pacco pesi non sbatte a vuoto al termine dell\'eccentrica, esibendo picchi tensivi ineccepibili quando il muscolo bersaglio risiede proprio in conformazione elastica e allungata.' },
+          { label: 'Esecuzione a ROM sezionato', text: 'Consigliamo di condurre il gesto puramente ad escursioni parziali, osteggiando categoricamente la distensione terminale nel punto di massimo accorciamento articolare dove la leva di fatto espira qualsivoglia sforzo. Permani saldamente nel pantano dello stretch.' },
+          { label: 'Vantaggio Bonus: Postura', text: 'Un plus inatteso? Una miriade di ricadute positive nell\'orbita della robustezza e profilazione toracica. L\'apparato della French Press/Overhead obbliga i tricipiti surali, i rombi ed i trapezi centrali ed inferiori, a fungere da fionda stabilizzatrice titanica per sostenere costantemente il pacco scapolare isoltamente.' }
+        ],
+        sources: [
+          { label: 'Overhead extension', url: 'https://www.instagram.com/pesce_spalla/reel/C9rnQGxiWJn' },
+          { label: 'Quanti esercizi per muscolo', url: 'https://www.instagram.com/pesce_spalla/reel/C-2SS7ktCqi' }
+        ]
+      },
+      'Curl al cavo basso — gomito lungo il fianco': {
+        sections: [
+          { label: 'Perché il cavo basso o medio', text: 'La posizione di lavoro al cavo da terra fino al bacino (basso-medio) incassa credenziali di gran lunga più sicure rispetto a settaggi da altezze estreme con braccio bloccato posteriormente. Una variante del cavo alto sproposita torzioni invadenti ed usure all\'apparto rotatore della spalla. Con questa configurazione ad assetto basso il picco della tensione gravita quando le leve sono semi-distese, zona fertile che la goniometria elogia per un eccellente impatto recettoriale.' },
+          { label: 'Mito del massimo allungamento viscerale', text: 'Il mito che l\'ipertrofia maturi soltanto spappolandosi su allungamenti terminali estremi al di sopra d\'ogni dolore, fortunatamente regredisce. Il progresso biomeccanico certifica a più riprese che possedere un load sufficiente, atto a bilanciare tangibilmente le elasticità avversarie in positure semplicemente "estese" produce uguali picchi miotatici ipertrofici a fronte di danni collaterali vicini allo zero.' },
+          { label: 'Specificità e dosaggi sbarazzini', text: 'E ricordiamocelo senza tabù: i bicipiti e distretti cugini intervengono subdolamente pure nelle tirate estenuanti per la schiena del medesimo workout. Aggiuntare pletore innumerevoli di curl sgranati a contorno si rivela inutile se si azzecca una sola manovra isolante in calce al mesociclo e la si porta al reale estremo.' }
+        ],
+        sources: [
+          { label: 'Curl cavo alto vs medio', url: 'https://www.instagram.com/pesce_spalla/reel/C-NFfxFCTIU' },
+          { label: 'Quanti esercizi', url: 'https://www.instagram.com/pesce_spalla/reel/C-2SS7ktCqi' }
+        ]
+      },
+      'Alzate laterali al cavo (singolo)': {
+        sections: [
+          { label: 'Carico contenuto', text: 'Caricare poco è essenziale: appena si esagera col peso, si coinvolge qualsiasi muscolo pur di far salire il braccio, perdendo completamente il focus sul deltoide laterale. Reggersi con il braccio che non lavora per aumentare la stabilità.' },
+          { label: 'Altezza del cavo', text: 'Con il cavo posizionato all\'altezza del ginocchio, la resistenza aumenta man mano che il braccio si solleva, raggiungendo il picco di tensione esattamente dove il deltoide esprime più forza secondo la sua curva lunghezza-tensione (LTR). Si evita di sovraccaricarlo quando è troppo allungato o accorciato.' },
+          { label: 'Gomito', text: 'Mantenere una flessione moderata e naturale del gomito (come si tiene il braccio lungo il fianco), per accorciare la leva, ridurre lo stress periferico e permettere al deltoide di esprimere forza in modo più efficiente. Se a fine set si avverte fastidio, aumentare leggermente la flessione.' },
+          { label: 'Scapole e trapezio', text: 'Il trapezio superiore non è un nemico: lavora in sinergia con deltoide e scapola. Tentare di bloccare forzatamente la scapola (annullando il ritmo scapolo-omerale) costringe a movimenti meno naturali con più stress articolare. L\'ideale è controllarne il coinvolgimento senza eliminarlo, lasciando che contribuisca fisiologicamente. Arrivare sugli 80° di flessione di spalla con movimenti liberi e naturali.' },
+          { label: 'Rep range e danno muscolare', text: 'Il deltoide laterale è composto in gran parte da fibre rapide che si affaticano rapidamente e si danneggiano facilmente. Tenere le serie corte con eccentriche controllate. Evitare 15+ ripetizioni e tecniche come i dropset che enfatizzano il danno muscolare (il danno non genera ipertrofia).' }
+        ],
+        sources: [
+          { label: 'Esecuzione al cavo', url: 'https://www.instagram.com/pesce_spalla/reel/DP6DchLjdlb' },
+          { label: 'LTR deltoide', url: 'https://www.instagram.com/pesce_spalla/reel/DMsDxM9iq62' },
+          { label: 'Gomito', url: 'https://www.instagram.com/pesce_spalla/reel/DTAc2UoDdon' },
+          { label: 'Trapezio/scapole', url: 'https://www.instagram.com/pesce_spalla/reel/DGQLX6-tSgd' },
+          { label: 'Rep range', url: 'https://www.instagram.com/pesce_spalla/reel/DOvc6QLDRq-' }
+        ]
+      },
+      'Leg Press 45°': {
+        sections: [
+          { label: 'Per i quadricipiti', text: 'La leg press a 45° non è un esercizio realmente "quad-dominant" di base. Tuttavia, con accortezze tecniche come il posizionamento dei piedi (centrali sulla pedana, non troppo in alto) e il controllo dell\'angolo del bacino, si può orientare maggiormente lo stimolo sui quadricipiti.' },
+          { label: 'Per i glutei (piedi alti/larghi)', text: 'Con piedi posizionati in alto e stance larga, si ottiene un\'ampia flessione d\'anca che mette i glutei in allungamento sotto tensione. In questa configurazione è "letteralmente burro" per i glutei: stabile e con tensione in allungamento.' }
+        ],
+        sources: [
+          { label: 'Leg press quadricipiti', url: 'https://www.instagram.com/pesce_spalla/reel/DQtvJW5jUEg' },
+          { label: 'Leg press glutei', url: 'https://www.instagram.com/pesce_spalla/reel/C_Sm9KENDUn' }
+        ]
+      },
+      'Leg Extension': {
+        sections: [
+          { label: 'Fulcro meccanico', text: 'Ogni leg extension ha un punto fisso di rotazione (il fulcro del braccio della macchina) che dovrebbe idealmente coincidere con il centro dell\'articolazione del ginocchio. Se non coincide, si possono verificare carichi imprevisti su punti non desiderati o maggiore stress articolare. Usare la variante classica, eventualmente alternandola nel macrociclo con il sissy squat.' }
+        ],
+        sources: [
+          { label: 'Leg extension', url: 'https://www.instagram.com/pesce_spalla/reel/DOTEpqDjA_p' }
+        ]
+      },
+      'Leg Curl unilaterale (con pad)': {
+        sections: [
+          { label: 'Esecuzione', text: 'Se si desidera aumentare l\'allungamento muscolare nella variante con busto inclinato, flettere SOLO l\'anca (avvicinare la pancia alle cosce). Il movimento delle scapole o della colonna NON allunga i posteriori della coscia. Non fare "il gambero" curvando la schiena: si finisce per stirare i nervi, non i muscoli.' },
+          { label: 'Allungamento non sempre migliore', text: 'La variante con busto inclinato non è automaticamente superiore a quella classica. L\'allungamento va contestualizzato in base alla struttura del soggetto e alla meccanica della macchina specifica.' }
+        ],
+        sources: [
+          { label: 'Seated leg curl (dic)', url: 'https://www.instagram.com/pesce_spalla/reel/DD4QBNhN-tK' },
+          { label: 'Seated leg curl (ago)', url: 'https://www.instagram.com/pesce_spalla/reel/DM7ghwDiT14' }
+        ]
+      },
+      'Seated Leg Curl bilaterale': {
+        sections: [
+          { label: 'Busto inclinato', text: 'Per allungare gli ischiocrurali, flettere SOLO l\'anca: avvicinare la pancia alle cosce, non curvare la schiena. Muovere le scapole o la colonna non allunga i femorali — si finisce nello "slump test" (un test clinico per l\'irritazione del nervo sciatico). Focus sulla flessione d\'anca, NON sulla cifosi.' },
+          { label: 'Contestualizzare', text: 'L\'allungamento non è sempre la risposta giusta. Va valutato in base alla propria struttura e alla meccanica della macchina specifica che si sta utilizzando.' }
+        ],
+        sources: [
+          { label: 'Leg curl busto avanti', url: 'https://www.instagram.com/pesce_spalla/reel/DD4QBNhN-tK' },
+          { label: 'Nervi vs muscoli', url: 'https://www.instagram.com/pesce_spalla/reel/DM7ghwDiT14' }
+        ]
+      },
+      'Iliac Pulldown (con panca)': {
+        sections: [
+          { label: 'Cos\'è', text: 'L\'iliac pulldown è un multiarticolare — non un esercizio di "rifinitura". È uno dei tanti modi validi per sovraccaricare le funzioni del gran dorsale, simile alle trazioni ma più stabile e con una variazione sulla flessione di spalla.' },
+          { label: 'Fasci bassi del dorsale', text: 'I fasci iliaci del gran dorsale hanno un andamento verticale-obliquo dal bacino all\'omero. Non rispondono bene all\'adduzione pura (busto dritto), dove il grande rotondo e le fibre alte dominano. L\'iliac pulldown, grazie alla sua traiettoria specifica, permette di allineare meglio lo stimolo a queste fibre.' }
+        ],
+        sources: [
+          { label: 'Iliac pulldown', url: 'https://www.instagram.com/pesce_spalla/reel/DJgo5Bbs2y0' },
+          { label: 'Non è rifinitura', url: 'https://www.instagram.com/pesce_spalla/reel/DHBGiwpN2Gd' }
+        ]
+      },
+      'Pulley alto — presa neutra, in cifosi': {
+        sections: [
+          { label: 'Scapole limitate per isolare', text: 'Il pulley in cifosi limita il movimento delle scapole, riducendo il coinvolgimento di tutti i muscoli che non siano il gran dorsale. Questa variante isola meglio il dorsale (fasci toracici) rispetto al pulley classico e offre un profilo di resistenza diverso dal pulley basso del Giorno 1.' }
+        ],
+        sources: [
+          { label: 'Pulley classico vs cifosi', url: 'https://www.instagram.com/pesce_spalla/reel/DFsIRDzCIrF' }
+        ]
+      },
+      'Spinte inclinata manubri / Smith': {
+        sections: [
+          { label: 'Esecuzione', text: 'Il vantaggio della panca inclinata si annulla se l\'esecuzione non si adatta: non basta cambiare l\'angolo, bisogna modificare anche il movimento evitando di esasperare l\'arco lombare (quello toracico va e viene, naturalmente). I fasci clavicolari del pettorale rappresentano solo circa il 15% dell\'intero muscolo. Scapole depresse durante tutta l\'esecuzione.' }
+        ],
+        sources: [
+          { label: 'Spinte inclinate', url: 'https://www.instagram.com/pesce_spalla/reel/DP6DchLjdlb' }
+        ]
+      },
+      'Pec Fly (macchina)': {
+        sections: [
+          { label: 'Esecuzione', text: 'La pec fly alla macchina è un ottimo esercizio per lavorare il petto in allungamento. Se si arriva al punto di dover staccare la schiena dal supporto per chiudere la concentrica, quel carico non è adeguato. Effettuare dei reset periodici: la foga delle progressioni fa spesso dimenticare la tecnica.' }
+        ],
+        sources: [
+          { label: 'Pec fly', url: 'https://www.instagram.com/pesce_spalla/reel/DP6DchLjdlb' }
+        ]
+      },
+      'Pushdown al cavo — corda lunga / Vulken': {
+        sections: [
+          { label: 'Corda lunga o Vulken', text: 'La corda lunga (o Vulken) permette alle mani di muoversi più lontano nella parte bassa del movimento, consentendo un\'estensione completa del gomito. Con la corda corta le mani si fermano prima, limitando il range. In alternativa, attaccare gli straps alle estremità.' },
+          { label: 'Gomiti', text: 'NON tenere i gomiti incollati al busto. Un\'abduzione fisiologica di circa 30° mantiene l\'omero in posizione più naturale rispetto alla glena, crea spazio nella spalla e facilita una traiettoria più fluida, evitando stress eccessivo sui tessuti molli.' },
+          { label: 'Presa e postura', text: 'Provare la thumbless grip (senza pollice): riduce l\'attivazione degli avambracci, concentrando il lavoro sui tricipiti. Non allontanarsi troppo dalla carrucola. Mantenere una leggera espansione toracica con ginocchia semiflesse a larghezza spalle.' },
+          { label: 'Corda vs sbarra', text: 'La corda offre più libertà: ogni mano può ruotare e adattarsi alla struttura individuale, riducendo le coppie torsionali sul polso. L\'accessorio migliore è quello che si adatta meglio alla propria struttura, non semplicemente quello più stabile.' }
+        ],
+        sources: [
+          { label: 'Pushdown perfetto', url: 'https://www.instagram.com/pesce_spalla/reel/C_sW8BCNwQB' },
+          { label: 'Corda vs sbarra', url: 'https://www.instagram.com/pesce_spalla/reel/DVvlDO1jbFa' }
+        ]
+      },
+      'Curl al cavo medio — gomito lungo il fianco': {
+        sections: [
+          { label: 'Variante sicura', text: 'Rispetto al cavo alto, il cavo medio riduce significativamente il torque sulla spalla, rendendo l\'esercizio più gestibile. Il picco di tensione avviene con il bicipite in posizione medio-allungata — non nel massimo allungamento, ma in una zona comunque produttiva per l\'ipertrofia.' },
+          { label: 'Tensione in allungamento', text: 'Non è fondamentale avere massima tensione nel punto di massimo allungamento: basta tensione in allungamento, senza inseguire posizioni rischiose.' }
+        ],
+        sources: [
+          { label: 'Curl cavo alto vs medio', url: 'https://www.instagram.com/pesce_spalla/reel/C-NFfxFCTIU' }
+        ]
+      },
+      'Leg Press 45° — piedi alti, stance larga': {
+        sections: [
+          { label: 'Focus glutei', text: 'Con piedi posizionati in alto sulla pedana e stance larga, si ottiene un\'ampia flessione d\'anca che mette glutei e ischiocrurali in allungamento sotto tensione. In questa configurazione la leg press è stabile e offre tensione in allungamento — ottima per i glutei.' },
+          { label: 'Bacino', text: 'Correggere sempre la posizione del bacino sulla macchina prima di iniziare.' }
+        ],
+        sources: [
+          { label: 'Leg press glutei', url: 'https://www.instagram.com/pesce_spalla/reel/C_Sm9KENDUn' }
+        ]
+      }
+    };
+
+    // Inject guide panels into exercise rows
+    document.querySelectorAll('.exercise-row').forEach(row => {
+      const nameEl = row.querySelector('.exercise-name');
+      if (!nameEl) return;
+      const name = nameEl.textContent.trim();
+      const guide = guides[name];
+      if (!guide) return;
+
+      row.classList.add('has-guide');
+      const panel = document.createElement('div');
+      panel.className = 'exercise-guide';
+      let html = '';
+      guide.sections.forEach(s => {
+        html += `<div class="guide-section"><div class="guide-label">${s.label}</div><div class="guide-text">${s.text}</div></div>`;
+      });
+      html += '<div class="guide-sources">';
+      guide.sources.forEach(s => {
+        html += `<a href="${s.url}" target="_blank" rel="noopener">📎 ${s.label}</a>`;
+      });
+      html += '</div>';
+      panel.innerHTML = html;
+      row.after(panel);
+
+      row.addEventListener('click', () => {
+        const isOpen = panel.classList.contains('open');
+        // close all others
+        document.querySelectorAll('.exercise-guide.open').forEach(p => { p.classList.remove('open'); p.previousElementSibling.classList.remove('expanded'); });
+        if (!isOpen) { panel.classList.add('open'); row.classList.add('expanded'); }
+      });
+    });
+</script>
+
+</body>
+</html>
